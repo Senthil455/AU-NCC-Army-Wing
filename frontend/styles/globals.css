@@ -2,27 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg: #f7f7f2;
+  --surface: #ffffff;
+  --surface2: #efeee6;
+  --border: #d9d7c8;
+  --text: #1f2218;
+  --muted: #6b705c;
+  --olive: #556b2f;
+  --oliveDark: #3a4a20;
+  --khaki: #c2b280;
+  --accent: #b5342c;
+}
+
+* { box-sizing: border-box; }
 body {
-  @apply bg-olive-50 text-olive-900;
+  margin: 0;
+  background: radial-gradient(1200px 500px at 50% -80px, #e8ead9, transparent), var(--bg);
+  color: var(--text);
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
+
 .btn {
-  @apply inline-flex items-center justify-center rounded-md bg-olive-700 px-4 py-2 text-sm font-semibold text-white hover:bg-olive-800 disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold transition;
+  background: var(--olive);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,.06);
 }
+.btn:hover { background: var(--oliveDark); transform: translateY(-1px); }
 .btn-secondary {
-  @apply inline-flex items-center justify-center rounded-md border border-olive-700 px-4 py-2 text-sm font-semibold text-olive-800 hover:bg-olive-100;
+  @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold transition;
+  border: 1px solid var(--border);
+  color: var(--oliveDark);
+  background: #fff;
 }
+.btn-secondary:hover { background: var(--surface2); }
+
 .card {
-  @apply rounded-lg border bg-white p-4 shadow-sm;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(31,34,24,.04);
 }
+
 .input {
-  @apply w-full rounded-md border px-3 py-2 text-sm;
+  @apply w-full rounded-lg text-sm px-3 py-2.5;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  outline: none;
 }
-.table {
-  @apply w-full text-sm;
-}
+.input:focus { border-color: var(--olive); box-shadow: 0 0 0 3px rgba(85,107,47,.18); }
+
+.table { @apply w-full text-sm; }
 .table th {
-  @apply bg-olive-800 text-left text-white px-3 py-2;
+  background: var(--oliveDark);
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
 }
 .table td {
-  @apply border-b px-3 py-2;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 12px;
+}
+.table tr:hover td {
+  background: #f6f7f0;
+}
+
+.hero {
+  background:
+    radial-gradient(800px 280px at 0% 0%, rgba(255,255,255,0.25), transparent),
+    linear-gradient(135deg, #4a5f2a 0%, #3a4a20 60%, #2f351a 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  color: #fff;
+}
+
+.hero .btn-secondary {
+  background: transparent;
+  border-color: rgba(255,255,255,0.6);
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
 }

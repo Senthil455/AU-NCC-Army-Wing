@@ -7,13 +7,13 @@ export default function Home() {
   const { t } = useLang();
   return (
     <div className="space-y-6">
-      <section className="card bg-olive-800 !text-white">
-        <p className="text-xs tracking-widest text-khaki">{t('motto')}</p>
-        <h1 className="mt-1 text-3xl font-bold">{t('hero')}</h1>
-        <p className="mt-2 opacity-90">{t('sub')}</p>
-        <div className="mt-4 flex gap-2">
+      <section className="hero card">
+        <p className="text-xs tracking-widest text-khaki font-semibold">{t('motto')}</p>
+        <h1 className="mt-3 text-4xl font-bold leading-tight">{t('hero')}</h1>
+        <p className="mt-3 max-w-2xl text-base opacity-95">{t('sub')}</p>
+        <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/cadets" className="btn !bg-khaki !text-olive-900">{t('viewCadets')}</Link>
-          <Link href="/login" className="btn-secondary !border-white !text-white">{t('login')}</Link>
+          <Link href="/login" className="btn-secondary !border-white">{t('login')}</Link>
         </div>
       </section>
       <section className="grid gap-4 md:grid-cols-2">

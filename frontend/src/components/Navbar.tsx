@@ -6,7 +6,7 @@ import { LanguageToggle } from '../lib/i18n';
 export function Navbar() {
   const { user, logout } = useAuth();
   return (
-    <header className="bg-olive-900 text-white">
+    <header className="sticky top-0 z-10 bg-olive-900/95 text-white shadow-sm backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="font-bold tracking-wide">
           <span className="text-khaki">NCC</span> · AU Army Wing
