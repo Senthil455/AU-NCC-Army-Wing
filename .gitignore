@@ -11,3 +11,7 @@ coverage/
 .DS_Store
 uploads/
 *.pem
+
+# local build artifacts
+*.tsbuildinfo
+backend/prisma/migrations/

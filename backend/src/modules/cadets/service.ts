@@ -104,7 +104,7 @@ export function auditExport(actorId: string, format: string, columns: string[], 
 
 export async function bulkUpload(buffer: Buffer, actorId: string, ip?: string) {
   const wb = new ExcelJS.Workbook();
-  await wb.xlsx.load(buffer);
+  await wb.xlsx.load(buffer as never);
   const ws = wb.worksheets[0];
   if (!ws) throw badRequest('Empty workbook');
   const header: string[] = [];
@@ -124,8 +124,8 @@ export async function bulkUpload(buffer: Buffer, actorId: string, ip?: string) {
       if (!obj.consentGiven) { obj.consentGiven = true; }
       await prisma.cadet.upsert({
         where: { regdNo: String(obj.regdNo) },
-        update: { ...(obj as never), consentGiven: true, consentAt: new Date() },
-        create: { ...((obj as never) as object), year: Number((obj as Record<string, unknown>).year), consentGiven: true, consentAt: new Date() } as never,
+        update: { ...obj, consentGiven: true, consentAt: new Date() } as never,
+        create: { ...obj, year: Number(obj.year), consentGiven: true, consentAt: new Date() } as never,
       });
       inserted++;
     } catch (e) {

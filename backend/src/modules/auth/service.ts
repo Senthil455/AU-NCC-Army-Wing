@@ -22,7 +22,7 @@ export async function login(emailOrRegdNo: string, password: string) {
 }
 
 export async function register(data: { name: string; email: string; password: string; role: string; regdNo?: string }) {
-  const exists = await prisma.user.findFirst({ where: { OR: [{ email: data.email }, ...(data.regdNo ? [{ regdNo: data.regdNo }] : []) } });
+  const exists = await prisma.user.findFirst({ where: { OR: [{ email: data.email }, ...(data.regdNo ? [{ regdNo: data.regdNo }] : [])] } });
   if (exists) throw badRequest('Email or Regd No. already registered');
   const user = await prisma.user.create({
     data: { name: data.name, email: data.email, regdNo: data.regdNo, role: data.role as never, passwordHash: await hashPassword(data.password) },
