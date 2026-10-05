@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  OFFICER_ANO_CTO
+  LEADER_SUO
+  CADET
+}
+
+enum Certificate {
+  NONE
+  A
+  B
+  C
+}
+
+enum EnrollmentStatus {
+  APPLIED
+  SHORTLISTED
+  SELECTED
+  ACTIVE
+  EXITED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  ON_DUTY
+  LEAVE
+  MEDICAL
+}
+
+enum SessionType {
+  DRILL
+  WEAPON_TRAINING
+  MAP_READING
+  PHYSICAL_TRAINING
+  SOCIAL_SERVICE
+  CLASS
+  OTHER
+}
+
+enum Priority {
+  URGENT
+  GENERAL
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  regdNo       String?  @unique
+  passwordHash String
+  role         Role     @default(CADET)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  refreshTokens RefreshToken[]
+  cadet        Cadet?
+}
+
+model Cadet {
+  id                String           @id @default(uuid())
+  userId            String?          @unique
+  user              User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  name              String
+  regdNo            String           @unique
+  nccRegimentalNo   String?          @unique
+  rank              String           @default("Cadet")
+  department        String
+  year              Int
+  batch             String
+  platoon           String           @default("Alpha")
+  bloodGroup        String?
+  phone             String?
+  email             String?
+  parentContact     String?
+  address           String?
+  photoUrl          String?
+  certificate       Certificate      @default(NONE)
+  enrollmentStatus  EnrollmentStatus @default(ACTIVE)
+  attendancePct     Float            @default(0)
+  consentGiven      Boolean          @default(false)
+  consentAt         DateTime?
+  isActive          Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  attendanceRecords AttendanceRecord[]
+
+  @@index([department, year])
+  @@index([platoon])
+  @@index([batch])
+}
+
+model AttendanceSession {
+  id        String      @id @default(uuid())
+  date      DateTime
+  type      SessionType @default(DRILL)
+  platoon   String?
+  location  String?
+  createdBy String
+  lockedAt  DateTime?
+  createdAt DateTime    @default(now())
+  records   AttendanceRecord[]
+
+  @@index([date])
+}
+
+model AttendanceRecord {
+  id        String           @id @default(uuid())
+  sessionId String
+  session   AttendanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  cadetId   String
+  cadet     Cadet            @relation(fields: [cadetId], references: [id], onDelete: Cascade)
+  status    AttendanceStatus @default(PRESENT)
+  markedBy  String
+  note      String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@unique([sessionId, cadetId])
+  @@index([cadetId])
+}
+
+model Announcement {
+  id           String   @id @default(uuid())
+  title        String
+  body         String
+  priority     Priority @default(GENERAL)
+  attachmentUrl String?
+  publishedBy  String
+  isPublished  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model NewsItem {
+  id        String   @id @default(uuid())
+  title     String
+  body      String
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+model EventCamp {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  type        String   @default("CAMP")
+  startsAt    DateTime
+  endsAt      DateTime?
+  venue       String?
+  meta        Json?
+  createdAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id       String   @id @default(uuid())
+  actorId  String?
+  action   String
+  entity   String
+  entityId String?
+  meta     Json?
+  ip       String?
+  createdAt DateTime @default(now())
+
+  @@index([entity, createdAt])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

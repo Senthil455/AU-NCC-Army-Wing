@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-olive-50 text-olive-900;
+}
+.btn {
+  @apply inline-flex items-center justify-center rounded-md bg-olive-700 px-4 py-2 text-sm font-semibold text-white hover:bg-olive-800 disabled:opacity-50;
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-md border border-olive-700 px-4 py-2 text-sm font-semibold text-olive-800 hover:bg-olive-100;
+}
+.card {
+  @apply rounded-lg border bg-white p-4 shadow-sm;
+}
+.input {
+  @apply w-full rounded-md border px-3 py-2 text-sm;
+}
+.table {
+  @apply w-full text-sm;
+}
+.table th {
+  @apply bg-olive-800 text-left text-white px-3 py-2;
+}
+.table td {
+  @apply border-b px-3 py-2;
+}
