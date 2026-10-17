@@ -1,41 +1,12 @@
 import { Router } from 'express';
-import { z } from 'zod';
-import { prisma } from '../../config/db.js';
-import { authenticate, requireRole } from '../../middleware/auth.js';
-import { asyncHandler } from '../../common/asyncHandler.js';
+import { authenticate, requireOfficer } from '../../middleware/auth.js';
+import * as controller from './controller.js';
 
+/** `/news` and `/events`: world-readable, officer-writable. Mounted at the API root. */
 export const publicContentRoutes = Router();
 
-publicContentRoutes.get(
-  '/news',
-  asyncHandler(async (_req, res) => {
-    res.json(await prisma.newsItem.findMany({ orderBy: { date: 'desc' }, take: 50 }));
-  }),
-);
+publicContentRoutes.get('/news', controller.listNews);
+publicContentRoutes.post('/news', authenticate, requireOfficer, controller.createNews);
 
-publicContentRoutes.get(
-  '/events',
-  asyncHandler(async (_req, res) => {
-    res.json(await prisma.eventCamp.findMany({ orderBy: { startsAt: 'asc' }, take: 50 }));
-  }),
-);
-
-publicContentRoutes.post(
-  '/news',
-  authenticate,
-  requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN'),
-  asyncHandler(async (req, res) => {
-    const body = z.object({ title: z.string().min(3), body: z.string().min(1) }).parse(req.body);
-    res.status(201).json(await prisma.newsItem.create({ data: body }));
-  }),
-);
-
-publicContentRoutes.post(
-  '/events',
-  authenticate,
-  requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN'),
-  asyncHandler(async (req, res) => {
-    const body = z.object({ title: z.string().min(3), description: z.string().min(1), startsAt: z.string(), venue: z.string().optional() }).parse(req.body);
-    res.status(201).json(await prisma.eventCamp.create({ data: { ...body, startsAt: new Date(body.startsAt) } }));
-  }),
-);
+publicContentRoutes.get('/events', controller.listEvents);
+publicContentRoutes.post('/events', authenticate, requireOfficer, controller.createEvent);

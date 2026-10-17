@@ -1,20 +1,26 @@
 import { Router } from 'express';
-import { authenticate, requireRole } from '../../middleware/auth.js';
-import * as c from './controller.js';
+import { authenticate, requireOfficer, requireRole, requireStaff } from '../../middleware/auth.js';
+import * as controller from './controller.js';
 import { upload } from './controller.js';
 
 export const cadetRoutes = Router();
+
 cadetRoutes.use(authenticate);
 
-cadetRoutes.get('/me', c.getMe);
-cadetRoutes.get('/template', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN', 'LEADER_SUO'), c.template);
-cadetRoutes.get('/export.xlsx', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN', 'LEADER_SUO'), c.exportXlsx);
-cadetRoutes.get('/export.csv', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN', 'LEADER_SUO'), c.exportCsv);
-cadetRoutes.get('/export.pdf', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN', 'LEADER_SUO'), c.exportPdf);
-cadetRoutes.post('/bulk-upload', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN'), upload.single('file'), c.bulkUpload);
+/**
+ * Read routes are staff-only. Any authenticated user used to be able to page through the whole
+ * cadet database (`GET /cadets`) — a cadet may only ever read their own record via `/cadets/me`.
+ */
+cadetRoutes.get('/me', controller.getMe);
+cadetRoutes.get('/template', requireStaff, controller.template);
+cadetRoutes.get('/export.xlsx', requireStaff, controller.exportXlsx);
+cadetRoutes.get('/export.csv', requireStaff, controller.exportCsv);
+cadetRoutes.get('/export.pdf', requireStaff, controller.exportPdf);
 
-cadetRoutes.get('/', c.list);
-cadetRoutes.get('/:id', c.getOne);
-cadetRoutes.post('/', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN'), c.create);
-cadetRoutes.patch('/:id', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN'), c.update);
-cadetRoutes.delete('/:id', requireRole('SUPER_ADMIN'), c.remove);
+cadetRoutes.post('/bulk-upload', requireOfficer, upload.single('file'), controller.bulkUpload);
+
+cadetRoutes.get('/', requireStaff, controller.list);
+cadetRoutes.get('/:id', requireStaff, controller.getOne);
+cadetRoutes.post('/', requireOfficer, controller.create);
+cadetRoutes.patch('/:id', requireOfficer, controller.update);
+cadetRoutes.delete('/:id', requireRole('SUPER_ADMIN'), controller.remove);

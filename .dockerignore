@@ -1,0 +1,23 @@
+# Build context for both app images is the repository root (npm workspaces need the
+# root lockfile and every workspace manifest). Everything below is irrelevant in an image.
+
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/coverage
+**/*.log
+**/*.tsbuildinfo
+
+# Secrets never enter an image; .env.example is documentation and stays.
+**/.env
+**/.env.*
+!**/.env.example
+
+.git
+.github
+docs
+Makefile
+docker-compose.yml
+**/*.md
+!README.md

@@ -1,0 +1,18 @@
+# One checkout, one lockfile, one set of tool versions — see ARCHITECTURE.md § Monorepo.
+
+# Normalize every text file to LF in the repository; the working tree follows the platform.
+* text=auto eol=lf
+
+# Never rewrite binary artefacts.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.xlsx  binary
+*.woff  binary
+*.woff2 binary
+
+# Generated — keep it out of language stats and code review.
+package-lock.json linguist-generated=true

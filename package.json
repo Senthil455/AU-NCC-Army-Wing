@@ -1,0 +1,37 @@
+{
+  "name": "au-ncc-army-wing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AU NCC Army Wing — monorepo: Next.js portal, Express/Prisma API and the shared HTTP-contract package",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run -w @ncc/backend prisma:migrate",
+    "db:deploy": "npm run -w @ncc/backend prisma:deploy",
+    "db:seed": "npm run -w @ncc/backend db:seed",
+    "db:studio": "npm run -w @ncc/backend prisma:studio",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "postinstall": "npm run build -w @ncc/shared"
+  },
+  "devDependencies": {
+    "eslint": "^9.9.0",
+    "turbo": "^2.0.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

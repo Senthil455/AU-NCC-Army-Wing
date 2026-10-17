@@ -1,13 +1,20 @@
 import { Router } from 'express';
-import { authenticate, requireRole } from '../../middleware/auth.js';
-import * as c from './controller.js';
+import { authenticate, requireStaff } from '../../middleware/auth.js';
+import * as controller from './controller.js';
 
 export const attendanceRoutes = Router();
+
 attendanceRoutes.use(authenticate);
-attendanceRoutes.get('/sessions', c.listSessions);
-attendanceRoutes.post('/sessions', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN', 'LEADER_SUO'), c.createSession);
-attendanceRoutes.get('/sessions/:id', c.getSession);
-attendanceRoutes.post('/sessions/:id/mark', requireRole('OFFICER_ANO_CTO', 'SUPER_ADMIN', 'LEADER_SUO'), c.mark);
-attendanceRoutes.get('/report', c.report);
-attendanceRoutes.get('/report.xlsx', c.reportXlsx);
-attendanceRoutes.get('/report.pdf', c.reportPdf);
+
+/**
+ * Every attendance route is staff-only. `GET /sessions`, `GET /report` and the report downloads
+ * used to be reachable with any valid token, so any cadet could read the whole wing's attendance.
+ */
+attendanceRoutes.get('/sessions', requireStaff, controller.listSessions);
+attendanceRoutes.post('/sessions', requireStaff, controller.createSession);
+attendanceRoutes.get('/sessions/:id', requireStaff, controller.getSession);
+attendanceRoutes.post('/sessions/:id/mark', requireStaff, controller.mark);
+
+attendanceRoutes.get('/report', requireStaff, controller.report);
+attendanceRoutes.get('/report.xlsx', requireStaff, controller.reportXlsx);
+attendanceRoutes.get('/report.pdf', requireStaff, controller.reportPdf);
