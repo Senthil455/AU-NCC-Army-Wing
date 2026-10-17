@@ -325,7 +325,11 @@ export interface HealthResponse {
 }
 
 export interface BulkUploadResult {
+  /** Rows written (created or updated by register number). */
   inserted: number;
+  /** Blank rows the importer stepped over. */
+  skipped: number;
+  /** Per-row validation or write failures; the row still appears in the sheet the user uploaded. */
   errors: { row: number; message: string }[];
 }
 

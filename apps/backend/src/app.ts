@@ -2,7 +2,7 @@ import express, { type Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { corsOrigins, env, isProduction } from './config/env.js';
+import { corsOrigins, env, isProduction, isTest } from './config/env.js';
 import { apiRouter } from './routes/index.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { requestContext } from './middleware/requestContext.js';
@@ -18,7 +18,8 @@ export function buildApp(): Express {
   app.use(helmet());
   app.use(cors({ origin: corsOrigins, credentials: true }));
   app.use(express.json({ limit: '1mb' }));
-  app.use(morgan(isProduction ? 'combined' : 'dev'));
+  // `test` keeps the suite output readable; `combined` is what a log collector expects.
+  if (!isTest) app.use(morgan(isProduction ? 'combined' : 'dev'));
 
   app.use('/api', apiRouter);
 

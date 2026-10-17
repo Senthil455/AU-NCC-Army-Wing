@@ -1,25 +1,40 @@
 'use client';
 import { useEffect, useState } from 'react';
+import type { DashboardSummary } from '../types';
 import { api } from '../lib/api';
 
+const CARDS: { key: keyof DashboardSummary; label: string; format?: (value: number) => string }[] = [
+  { key: 'totalCadets', label: 'Cadets on strength' },
+  { key: 'avgAttendancePct', label: 'Average attendance', format: (v) => `${v}%` },
+  { key: 'lowAttendanceCount', label: 'Below threshold' },
+  { key: 'totalSessions', label: 'Parades held' },
+];
+
 export function StatsCards() {
-  const [s, setS] = useState<{ totalCadets?: number; avgAttendancePct?: number; lowAttendanceCount?: number }>({});
+  const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [error, setError] = useState('');
+
   useEffect(() => {
-    api<typeof s>('/dashboard/summary').then(setS).catch(() => undefined);
+    api<DashboardSummary>('/dashboard/summary')
+      .then(setSummary)
+      .catch((e: unknown) => setError(e instanceof Error ? e.message : 'Could not load the summary'));
   }, []);
-  const cards = [
-    ['Total cadets', s.totalCadets ?? '—'],
-    ['Avg attendance', s.avgAttendancePct !== undefined ? `${s.avgAttendancePct}%` : '—'],
-    ['Below 75%', s.lowAttendanceCount ?? '—'],
-  ];
+
+  if (error) return <p className="card text-sm text-nccred">{error}</p>;
+
   return (
-    <div className="grid grid-cols-3 gap-3">
-      {cards.map(([k, v]) => (
-        <div key={k} className="card text-center">
-          <p className="text-2xl font-bold">{v}</p>
-          <p className="text-xs uppercase tracking-wide opacity-70">{k}</p>
-        </div>
-      ))}
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      {CARDS.map(({ key, label, format }) => {
+        const value = summary?.[key];
+        return (
+          <div key={String(key)} className="card text-center">
+            <p className="text-2xl font-bold">
+              {typeof value === 'number' ? (format ? format(value) : value) : '—'}
+            </p>
+            <p className="text-xs uppercase tracking-wide opacity-70">{label}</p>
+          </div>
+        );
+      })}
     </div>
   );
 }

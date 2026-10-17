@@ -4,9 +4,12 @@ import * as controller from './controller.js';
 
 export const announcementRoutes = Router();
 
-announcementRoutes.use(authenticate);
-
+/**
+ * The board itself is public: these are official notices that the unit also shows on the public
+ * home page. Only publishing, editing and unpublishing require a staff login.
+ */
 announcementRoutes.get('/', controller.list);
-announcementRoutes.post('/', requireStaff, controller.create);
-announcementRoutes.patch('/:id', requireOfficer, controller.update);
-announcementRoutes.delete('/:id', requireOfficer, controller.remove);
+
+announcementRoutes.post('/', authenticate, requireStaff, controller.create);
+announcementRoutes.patch('/:id', authenticate, requireOfficer, controller.update);
+announcementRoutes.delete('/:id', authenticate, requireOfficer, controller.remove);

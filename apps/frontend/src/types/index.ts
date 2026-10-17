@@ -1,42 +1,53 @@
-export type Role = 'SUPER_ADMIN' | 'OFFICER_ANO_CTO' | 'LEADER_SUO' | 'CADET';
+/**
+ * The HTTP contract lives in `@ncc/shared` — this file only re-exports it so existing
+ * `../types` imports keep working and there is exactly one definition of every shape.
+ */
+export type {
+  Announcement,
+  ApiErrorBody,
+  AttendanceRecord,
+  AttendanceReport,
+  AttendanceReportRow,
+  AttendanceSession,
+  AttendanceSessionDetail,
+  AttendanceStatus,
+  AuthResponse,
+  BulkUploadResult,
+  Cadet,
+  CadetListQuery,
+  Certificate,
+  DashboardSummary,
+  EnrollmentStatus,
+  EventCamp,
+  ExportFormat,
+  ExportableColumn,
+  HealthResponse,
+  MeResponse,
+  NewsItem,
+  Paginated,
+  QueuedAttendanceMark,
+  Role,
+  SessionType,
+  SortableCadetField,
+  SortDirection,
+  User,
+} from '@ncc/shared';
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  regdNo: string | null;
-  role: Role;
-}
-
-export interface Cadet {
-  id: string;
-  name: string;
-  regdNo: string;
-  nccRegimentalNo?: string | null;
-  rank: string;
-  department: string;
-  year: number;
-  batch: string;
-  platoon: string;
-  bloodGroup?: string | null;
-  phone?: string | null;
-  email?: string | null;
-  certificate: 'NONE' | 'A' | 'B' | 'C';
-  attendancePct: number;
-}
-
-export interface Announcement {
-  id: string;
-  title: string;
-  body: string;
-  priority: 'URGENT' | 'GENERAL';
-  createdAt: string;
-}
-
-export interface AttendanceSession {
-  id: string;
-  date: string;
-  type: string;
-  platoon?: string | null;
-  location?: string | null;
-}
+export {
+  ANNOUNCEMENT_PRIORITIES,
+  ATTENDANCE_STATUSES,
+  ATTENDED_STATUSES,
+  CERTIFICATES,
+  DEFAULT_LOW_ATTENDANCE_PCT,
+  ENROLLMENT_STATUSES,
+  EXPORTABLE_COLUMNS,
+  ROLES,
+  SENSITIVE_COLUMNS,
+  SESSION_TYPES,
+  SORTABLE_CADET_FIELDS,
+  STAFF_ROLES,
+  isLowAttendance,
+  isOfficer,
+  isRole,
+  isStaff,
+} from '@ncc/shared';
