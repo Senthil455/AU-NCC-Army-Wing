@@ -1,6 +1,6 @@
 # Contributing — AU NCC Army Wing
 
-Team (Oct 02): **Senthil — frontend**, **Lokashakthivel + Isheetha — backend**. This file is the handoff contract so anyone can pick up any part.
+Team: **frontend** + **backend**. This file is the handoff contract so anyone can pick up any part.
 
 ## Weekly cadence
 
@@ -34,6 +34,6 @@ Seeded logins (dev only): `ano@annauniv.edu / Passw0rd!` (officer), `suo@annauni
 
 ## Code owners
 
-- `apps/frontend/**` — @Senthil
-- `apps/backend/**` — @Lokashakthivel @Isheetha
+- `apps/frontend/**` — frontend team
+- `apps/backend/**` — backend team
 - `docs/**`, `docker-compose.yml` — all

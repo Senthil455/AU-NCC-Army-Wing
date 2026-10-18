@@ -23,7 +23,7 @@ Meeting decided: **Next.js + Node.js + Postgres + JWT + Excel/PDF libs**. Ration
 - ReportLab (Python) rejected — no Python service in stack.
 
 ## ADR-6: Prisma ORM
-- Why: schema.prisma is readable onboarding doc; migrations + seed + type-safe client reduce backend handoff errors between Lokashakthivel/Isheetha and future maintainers.
+- Why: schema.prisma is readable onboarding doc; migrations + seed + type-safe client reduce backend handoff errors between backend team members and future maintainers.
 
 ## ADR-7: Monorepo with split Docker images
 - Why: one `git clone` for Mon/Wed/Sat workflow; `docker-compose.yml` runs db+api+web; CI builds each package independently. Avoids micro-repo drift.

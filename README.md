@@ -2,14 +2,14 @@
 
 Central portal for NCC Army Wing cadets: academic/personal data, attendance, exports (Excel/PDF/CSV) for reporting to Group HQ / University.
 
-**Meeting source (Oct 02):** Core = user portal + export. Stack = Next.js + Node.js + Postgres. Workflow = Mon task / Wed progress / Sat retro. Roles = Senthil (frontend), Lokashakthivel + Isheetha (backend).
+**Meeting source (Oct 02):** Core = user portal + export. Stack = Next.js + Node.js + Postgres. Workflow = Mon task / Wed progress / Sat retro. Roles = frontend + backend.
 
 ## Monorepo layout
 
 ```
 AU-NCC-Army-Wing/
-├── apps/frontend/      # Next.js 14 (App Router) + Tailwind — Senthil
-├── apps/backend/       # Express + TypeScript + Prisma + Postgres — Lokashakthivel, Isheetha
+├── apps/frontend/      # Next.js 14 (App Router) + Tailwind — frontend
+├── apps/backend/       # Express + TypeScript + Prisma + Postgres — backend
 ├── docs/               # ADRs, API, data model, privacy
 ├── docker-compose.yml  # postgres + backend + frontend (dev)
 ├── Makefile            # shortcuts

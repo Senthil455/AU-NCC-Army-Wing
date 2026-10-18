@@ -1,6 +1,6 @@
 # Backend — Express + Prisma + Postgres
 
-Owner: Lokashakthivel, Isheetha.
+Owner: backend team.
 
 ## Commands
 

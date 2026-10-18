@@ -1,6 +1,6 @@
 # Frontend — Next.js 14 App Router + Tailwind
 
-Owner: Senthil.
+Owner: frontend team.
 
 ```bash
 cp .env.example .env.local
