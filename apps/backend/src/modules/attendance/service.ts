@@ -190,7 +190,9 @@ export async function report(filter: ReportFilter, actor: Actor): Promise<{ rows
   const sessionWhere: Prisma.AttendanceSessionWhereInput = {};
   const range = dateRange(filter.from, filter.to);
   if (range) sessionWhere.date = range;
-  if (platoon) sessionWhere.OR = [{ platoon }, { platoon: null }];
+  // A platoon-scoped leader needs the wing-wide parades too, otherwise their report is short.
+  // An officer filtering by platoon sees only that platoon — wing-wide sessions are excluded.
+  if (platoon) sessionWhere.OR = scope.unrestricted ? [{ platoon }] : [{ platoon }, { platoon: null }];
 
   const sessions = await prisma.attendanceSession.findMany({ where: sessionWhere, select: { id: true } });
   const sessionIds = sessions.map((session) => session.id);
