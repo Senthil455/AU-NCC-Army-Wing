@@ -4,12 +4,12 @@ Goal from Oct 02 meeting: **portal + export** that survives developer change and
 
 ## Principles
 
-1. **Monorepo, split deployables.** `frontend/` and `backend/` version together, deploy separately. No cross-imports except documented HTTP contract (`docs/api.md`) + duplicated DTO types (keep in sync, or extract `packages/shared` later).
-2. **Module (domain) isolation on backend.** Each domain lives in `backend/src/modules/<domain>/` with `routes.ts + controller.ts + service.ts + validators.ts`. Cross-domain calls go via service functions, never via HTTP internally. Adding camps/certs/quiz = copy `announcements/` module.
+1. **Monorepo, split deployables.** `apps/frontend/` and `apps/backend/` version together, deploy separately. No cross-imports except documented HTTP contract (`docs/api.md`) + duplicated DTO types (keep in sync, or extract `packages/shared` later).
+2. **Module (domain) isolation on backend.** Each domain lives in `apps/backend/src/modules/<domain>/` with `routes.ts + controller.ts + service.ts + validators.ts`. Cross-domain calls go via service functions, never via HTTP internally. Adding camps/certs/quiz = copy `announcements/` module.
 3. **Thin controllers, fat services.** Controllers: parse/validate/auth → service → respond. Services: Prisma + business rules. Utils (`excel/pdf/jwt`) are stateless.
 4. **Contract-first exports.** Export columns are whitelisted (`cadets/export.service.ts: EXPORTABLE_COLUMNS`). Frontend sends `?columns=a,b` — backend rejects unknown columns. Same pattern reused for attendance/applicant exports.
 5. **RBAC at middleware + service.** `requireRole(...)` gates routes; services re-check for PII/full-export (`OFFICER` only). Audit log is fire-and-forget, never blocks the request.
-6. **Frontend feature folders.** `frontend/src/components/<domain>/` + `frontend/app/<route>/`. API access only via `src/lib/api.ts`. Auth only via `src/lib/auth.tsx`. No direct `fetch` elsewhere.
+6. **Frontend feature folders.** `apps/frontend/src/components/<domain>/` + `apps/frontend/app/<route>/`. API access only via `src/lib/api.ts`. Auth only via `src/lib/auth.tsx`. No direct `fetch` elsewhere.
 
 ## Backend map
 

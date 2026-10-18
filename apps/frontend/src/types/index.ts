@@ -4,6 +4,7 @@
  */
 export type {
   Announcement,
+  AnnouncementPriority,
   ApiErrorBody,
   AttendanceRecord,
   AttendanceReport,

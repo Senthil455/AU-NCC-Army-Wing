@@ -1,16 +1,22 @@
-.PHONY: dev db-up backend frontend lint test
+.PHONY: dev db-up backend frontend lint test clean
 
 db-up:
 	docker compose up -d db
 
 backend:
-	cd backend && npm run dev
+	cd apps/backend && npm run dev
 
 frontend:
-	cd frontend && npm run dev
+	cd apps/frontend && npm run dev
 
 lint:
-	cd backend && npm run lint; cd ../frontend && npm run lint
+	cd apps/backend && npm run lint; cd ../frontend && npm run lint
 
 test:
-	cd backend && npm test
+	cd apps/backend && npm test
+
+clean:
+	npm run clean
+
+dev: db-up
+	@echo "Run backend and frontend in separate terminals: make backend & make frontend"

@@ -7,6 +7,7 @@ import { useAuth } from '../lib/auth';
 
 const PAGE_SIZE = 50;
 const CERTIFICATES = ['', 'NONE', 'A', 'B', 'C'] as const;
+const SENSITIVE_SET = new Set<string>(SENSITIVE_COLUMNS as readonly string[]);
 
 const DEFAULT_COLUMNS: ExportableColumn[] = ['name', 'regdNo', 'department', 'year', 'certificate', 'attendancePct'];
 
@@ -43,7 +44,7 @@ export function CadetTable({ reloadKey = 0 }: { reloadKey?: number }) {
 
   // Sensitive columns stay hidden from leaders — the API rejects them anyway (see docs/api.md).
   const selectableColumns = useMemo(
-    () => EXPORTABLE_COLUMNS.filter((column) => officer || !SENSITIVE_COLUMNS.includes(column)),
+    () => EXPORTABLE_COLUMNS.filter((column) => officer || !SENSITIVE_SET.has(column)),
     [officer],
   );
 
@@ -185,7 +186,7 @@ export function CadetTable({ reloadKey = 0 }: { reloadKey?: number }) {
               }
             />
             {column}
-            {SENSITIVE_COLUMNS.includes(column) && <span className="opacity-60">(officer only)</span>}
+            {SENSITIVE_SET.has(column) && <span className="opacity-60">(officer only)</span>}
           </label>
         ))}
       </fieldset>

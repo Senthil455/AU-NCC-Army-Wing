@@ -5,14 +5,14 @@ You just joined after a developer change. This gets you running and shipping saf
 ## 1. Read (5 min)
 1. `README.md` → scope + quickstart.
 2. `ARCHITECTURE.md` → where to put code (never cross module boundaries).
-3. `docs/api.md` → HTTP contract. 4. Your area: frontend → `frontend/README.md`; backend → `backend/README.md`.
+3. `docs/api.md` → HTTP contract. 4. Your area: frontend → `apps/frontend/README.md`; backend → `apps/backend/README.md`.
 
 ## 2. Run (5 min)
 ```bash
 docker compose up -d db
-cd backend && cp .env.example .env && npm install && npx prisma migrate dev && npm run db:seed && npm run dev
+cd apps/backend && cp .env.example .env && npm install && npx prisma migrate dev && npm run db:seed && npm run dev
 # new terminal:
-cd frontend && cp .env.example .env.local && npm install && npm run dev
+cd apps/frontend && cp .env.example .env.local && npm install && npm run dev
 ```
 Log in with `ano@annauniv.edu / Passw0rd!` (dev seed only).
 

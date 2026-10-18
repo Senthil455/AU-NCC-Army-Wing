@@ -14,4 +14,3 @@ uploads/
 
 # local build artifacts
 *.tsbuildinfo
-backend/prisma/migrations/

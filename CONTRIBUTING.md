@@ -19,9 +19,9 @@ Team (Oct 02): **Senthil — frontend**, **Lokashakthivel + Isheetha — backend
 ```bash
 docker compose up -d db
 # backend
-cd backend && cp .env.example .env && npm install && npx prisma migrate dev && npm run db:seed && npm run dev
+cd apps/backend && cp .env.example .env && npm install && npx prisma migrate dev && npm run db:seed && npm run dev
 # frontend (new terminal)
-cd frontend && cp .env.example .env.local && npm install && npm run dev
+cd apps/frontend && cp .env.example .env.local && npm install && npm run dev
 ```
 
 Seeded logins (dev only): `ano@annauniv.edu / Passw0rd!` (officer), `suo@annauniv.edu / Passw0rd!` (leader), `cadet@annauniv.edu / Passw0rd!` (cadet).
@@ -30,10 +30,10 @@ Seeded logins (dev only): `ano@annauniv.edu / Passw0rd!` (officer), `suo@annauni
 
 - TypeScript strict, no `any` without comment. Zod validates every backend input. No direct `fetch` in frontend components — use `src/lib/api.ts`.
 - Research unfamiliar concepts with AI tools (per meeting action item), but **verify against docs + `npm run typecheck`** before committing.
-- File structure is fixed: `/frontend`, `/backend`, `/docs`. Don't invent top-level folders without ADR.
+- File structure is fixed: `/apps/frontend`, `/apps/backend`, `/docs`. Don't invent top-level folders without ADR.
 
 ## Code owners
 
-- `frontend/**` — @Senthil
-- `backend/**` — @Lokashakthivel @Isheetha
+- `apps/frontend/**` — @Senthil
+- `apps/backend/**` — @Lokashakthivel @Isheetha
 - `docs/**`, `docker-compose.yml` — all

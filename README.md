@@ -8,24 +8,24 @@ Central portal for NCC Army Wing cadets: academic/personal data, attendance, exp
 
 ```
 AU-NCC-Army-Wing/
-├── frontend/          # Next.js 14 (App Router) + Tailwind — Senthil
-├── backend/           # Express + TypeScript + Prisma + Postgres — Lokashakthivel, Isheetha
-├── docs/              # ADRs, API, data model, privacy
-├── docker-compose.yml # postgres + backend + frontend (dev)
-├── Makefile           # shortcuts
+├── apps/frontend/      # Next.js 14 (App Router) + Tailwind — Senthil
+├── apps/backend/       # Express + TypeScript + Prisma + Postgres — Lokashakthivel, Isheetha
+├── docs/               # ADRs, API, data model, privacy
+├── docker-compose.yml  # postgres + backend + frontend (dev)
+├── Makefile            # shortcuts
 └── .github/workflows/ci.yml
 ```
 
 ## Quickstart (dev)
 
 ```bash
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env.local
+cp apps/backend/.env.example apps/backend/.env
+cp apps/frontend/.env.example apps/frontend/.env.local
 # edit DATABASE_URL + JWT secrets
 
 docker compose up -d db
-cd backend && npm install && npx prisma migrate dev && npm run db:seed && npm run dev
-cd ../frontend && npm install && npm run dev
+cd apps/backend && npm install && npx prisma migrate dev && npm run db:seed && npm run dev
+cd ../apps/frontend && npm install && npm run dev
 ```
 
 - Frontend: http://localhost:3000

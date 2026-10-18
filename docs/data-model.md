@@ -1,6 +1,6 @@
 # Data model (Postgres via Prisma)
 
-Single source of truth: `backend/prisma/schema.prisma`. Summary for the meeting discussion:
+Single source of truth: `apps/backend/prisma/schema.prisma`. Summary for the meeting discussion:
 
 ## User (login)
 - `id` uuid, `name`, `email` unique, `regdNo` unique nullable (cadet login via regd no. or AU email — Q2 in plan), `passwordHash`, `role` (SUPER_ADMIN, OFFICER_ANO_CTO, LEADER_SUO, CADET), `isActive`, timestamps.

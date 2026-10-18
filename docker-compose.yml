@@ -13,12 +13,14 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
     restart: unless-stopped
     depends_on:
       - db
     env_file:
-      - ./backend/.env
+      - ./apps/backend/.env
     environment:
       DATABASE_URL: postgresql://ncc:ncc_dev_password@db:5432/ncc_army_wing
       PORT: "4000"
@@ -26,7 +28,9 @@ services:
       - "4000:4000"
 
   frontend:
-    build: ./frontend
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
     restart: unless-stopped
     depends_on:
       - backend
