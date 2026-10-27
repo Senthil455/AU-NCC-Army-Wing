@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal Field Guide · AU NCC Army Wing</title>
+<style>
+  :root{
+    --paper:#f2eee1; --paper2:#fbfaf4; --ink:#1d2417; --muted:#67705d;
+    --olive-950:#151d10; --olive-900:#202b17; --olive-800:#2d3c1f; --olive-700:#40562c;
+    --olive-600:#5a743b; --olive-500:#768f4d; --khaki:#c9b787; --khaki-2:#e4d8b9;
+    --red:#a3382c; --red-2:#c04a3c; --blue:#2f5666; --amber:#9a6a1f; --slate:#5d6257; --plum:#6d4f79;
+    --line:#d7cfba; --line-2:#bdb39a; --white:#fff;
+    --display:"Bahnschrift SemiCondensed","DIN Condensed","Arial Narrow",Impact,sans-serif;
+    --sans:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif;
+    --mono:"Cascadia Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+    --shadow:0 24px 60px -30px rgba(21,29,16,.45);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;font-family:var(--sans);color:var(--ink);line-height:1.5;
+    background:
+      radial-gradient(1100px 520px at 82% -140px,rgba(201,183,135,.32),transparent 65%),
+      linear-gradient(180deg,#f5f1e5 0%,var(--paper) 45%,#eeeadc 100%);
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;
+    background-image:
+      linear-gradient(rgba(32,43,23,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(32,43,23,.035) 1px,transparent 1px);
+    background-size:48px 48px;
+    mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.5) 55%,transparent 92%);
+  }
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--red-2);outline-offset:3px}
+  .wrap{width:min(1280px,calc(100% - 48px));margin-inline:auto;position:relative;z-index:1}
+  .mono{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
+  .skip{position:absolute;left:-999px;top:8px;background:var(--khaki);color:var(--olive-950);padding:8px 12px;z-index:200}
+  .skip:focus{left:8px}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:60;color:#f5f1e4;
+    background:rgba(21,29,16,.97);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,.09);
+  }
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:11px 0}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand svg{width:36px;height:36px;color:var(--khaki);flex:none}
+  .brand small{display:block;font-family:var(--mono);font-size:.55rem;letter-spacing:.24em;color:var(--khaki);text-transform:uppercase;white-space:nowrap}
+  .brand b{display:block;font-family:var(--display);font-size:1.14rem;letter-spacing:.09em;line-height:1.1;white-space:nowrap}
+  .top-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+  .top-meta .tag{
+    font-family:var(--mono);font-size:.57rem;letter-spacing:.13em;text-transform:uppercase;
+    border:1px solid rgba(201,183,135,.38);color:var(--khaki);padding:5px 8px;
+  }
+  .top-meta .demo{font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;color:#a8b09b}
+  .top-meta a{font-family:var(--mono);font-size:.59rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:2px}
+  .top-meta a:hover{color:var(--khaki)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:76px 0 30px}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.65fr);gap:56px;align-items:end}
+  .eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--olive-700)}
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--red)}
+  .hero h1{
+    font-family:var(--display);font-size:clamp(3.6rem,8vw,7.2rem);line-height:.86;
+    letter-spacing:.005em;text-transform:uppercase;margin:20px 0 22px;max-width:12ch;
+  }
+  .hero h1 em{font-style:normal;color:var(--olive-600);position:relative;white-space:nowrap}
+  .hero h1 em::after{content:"";position:absolute;left:2%;right:2%;bottom:.06em;height:.07em;background:var(--khaki);z-index:-1}
+  .lede{max-width:66ch;font-size:1.03rem;color:#3d4633;margin:0}
+  .hero-note{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{display:inline-flex;align-items:center;gap:7px;padding:5px 9px;border:1px solid var(--line-2);background:rgba(255,255,255,.45);font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--olive-600)}
+  .brief{
+    background:var(--olive-950);color:#f3efdf;padding:26px 26px 22px;position:relative;
+    border-left:4px solid var(--red);box-shadow:var(--shadow);
+  }
+  .brief::before,.brief::after{content:"";position:absolute;width:10px;height:10px;border-color:rgba(201,183,135,.45);border-style:solid}
+  .brief::before{top:9px;right:9px;border-width:1px 1px 0 0}
+  .brief::after{bottom:9px;left:9px;border-width:0 0 1px 1px}
+  .brief .mono{color:var(--khaki)}
+  .brief p{margin:14px 0 18px;font-family:var(--display);font-size:1.5rem;line-height:1.16;letter-spacing:.01em;text-transform:uppercase}
+  .brief p span{color:var(--khaki)}
+  .brief dl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0;padding-top:15px;border-top:1px solid rgba(255,255,255,.15)}
+  .brief dt{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:#9da78f;text-transform:uppercase}
+  .brief dd{margin:3px 0 0;font-size:.76rem;color:#f3efdf}
+
+  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);margin-top:46px}
+  .stat-strip div{padding:18px 22px;border-right:1px solid var(--line-2)}
+  .stat-strip div:last-child{border-right:0}
+  .stat-strip b{display:block;font-family:var(--display);font-size:2rem;line-height:1;letter-spacing:.02em}
+  .stat-strip span{display:block;margin-top:4px;font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- sections ---------- */
+  .section{padding:72px 0;position:relative}
+  .section + .section{border-top:1px solid rgba(189,179,154,.55)}
+  .section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.55fr);gap:40px;align-items:end;margin-bottom:30px}
+  .kicker{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  .kicker::after{content:"";height:1px;width:48px;background:var(--line-2)}
+  .section-head h2{font-family:var(--display);font-size:clamp(2.2rem,4.6vw,4rem);line-height:.94;text-transform:uppercase;letter-spacing:.01em;margin:10px 0 0}
+  .section-head h2 em{font-style:normal;color:var(--olive-600)}
+  .section-head p{font-size:.88rem;color:var(--muted);margin:0;max-width:52ch}
+  .section-head p + p{margin-top:8px}
+
+  /* ---------- role cards ---------- */
+  .role-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+  .role-card{
+    --accent:var(--olive-600);--tint:rgba(90,116,59,.09);
+    grid-column:span 2;position:relative;display:flex;flex-direction:column;min-height:282px;
+    background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(250,248,239,.92));
+    border:1px solid var(--line);border-top:4px solid var(--accent);padding:20px 20px 17px;
+    overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  }
+  .role-card:nth-child(-n+2){grid-column:span 3;min-height:250px}
+  .role-card::after{
+    content:"";position:absolute;right:-38px;bottom:-52px;width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle,var(--tint),transparent 68%);pointer-events:none;
+  }
+  .role-card:hover{transform:translateY(-4px);box-shadow:0 22px 45px -28px rgba(21,29,16,.42);border-color:var(--line-2)}
+  .role-card:focus-visible{outline-offset:2px}
+  .role-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+  .role-index{font-family:var(--display);font-size:2.5rem;line-height:.8;color:var(--accent);letter-spacing:.02em}
+  .role-kind{font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:4px 6px;background:#fff}
+  .role-card h3{font-family:var(--display);font-size:clamp(1.55rem,2.3vw,2.1rem);line-height:1;text-transform:uppercase;letter-spacing:.02em;margin:18px 0 6px}
+  .role-login{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:var(--accent)}
+  .role-card p{font-size:.78rem;color:#4b5342;margin:10px 0 14px;max-width:52ch}
+  .role-card ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:.71rem;color:#535b49}
+  .role-card li{display:flex;gap:7px;align-items:baseline}
+  .role-card li::before{content:"—";color:var(--accent);font-weight:700;flex:none}
+  .role-foot{margin-top:auto;padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .role-foot .go{color:var(--accent);font-size:.72rem;letter-spacing:.04em;transition:transform .15s}
+  .role-card:hover .go{transform:translateX(3px)}
+  .role--admin{--accent:#8f2f26;--tint:rgba(143,47,38,.13)}
+  .role--officer{--accent:#4f692f;--tint:rgba(79,105,47,.13)}
+  .role--leader{--accent:#2f5666;--tint:rgba(47,86,102,.13)}
+  .role--cadet{--accent:#95651b;--tint:rgba(149,101,27,.13)}
+  .role--public{--accent:#5d6257;--tint:rgba(93,98,87,.13)}
+  .role--system{--accent:#6d4f79;--tint:rgba(109,79,121,.12)}
+  .role-grid-note{margin:14px 0 0;font-size:.7rem;color:var(--muted);display:flex;gap:8px;align-items:center}
+  .role-grid-note::before{content:"i";display:grid;place-items:center;width:16px;height:16px;border:1px solid var(--line-2);border-radius:50%;font-family:var(--mono);font-size:.55rem;flex:none}
+
+  /* ---------- workflow map ---------- */
+  .map-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+  .filters{display:flex;flex-wrap:wrap;gap:5px}
+  .filter{
+    border:1px solid var(--line-2);background:rgba(255,255,255,.55);padding:6px 10px;
+    font-family:var(--mono);font-size:.57rem;letter-spacing:.08em;text-transform:uppercase;color:#4d5545;
+    transition:.15s;display:inline-flex;align-items:center;gap:6px;
+  }
+  .filter .dot{width:6px;height:6px;border-radius:50%;background:var(--c,var(--olive-600))}
+  .filter:hover{background:#fff}
+  .filter.active{background:var(--olive-950);border-color:var(--olive-950);color:#f5f1e4}
+  .filter.active .dot{box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+  .map-key{font-family:var(--mono);font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap}
+  .map-key span{display:inline-flex;align-items:center;gap:6px}
+  .key-line{width:26px;height:1px;background:var(--olive-600);display:inline-block}
+  .key-line.dash{background:repeating-linear-gradient(90deg,var(--line-2) 0 4px,transparent 4px 7px)}
+
+  .map-shell{position:relative;border:1px solid var(--line-2);background:
+    linear-gradient(180deg,rgba(255,255,255,.55),rgba(247,244,234,.75));box-shadow:var(--shadow)}
+  .map-shell::before,.map-shell::after{content:"";position:absolute;width:14px;height:14px;border-color:var(--line-2);border-style:solid;pointer-events:none;z-index:3}
+  .map-shell::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+  .map-shell::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+  .map-scroll{overflow-x:auto;overflow-y:hidden;scrollbar-color:var(--line-2) transparent;scrollbar-width:thin}
+  .map-scroll::-webkit-scrollbar{height:8px}
+  .map-scroll::-webkit-scrollbar-thumb{background:var(--line-2)}
+  .map-canvas{
+    position:relative;display:grid;min-width:1360px;
+    grid-template-columns:138px repeat(7,minmax(168px,1fr));
+    grid-template-rows:50px repeat(6,98px);
+    background-image:
+      linear-gradient(to right,rgba(189,179,154,.3) 1px,transparent 1px),
+      linear-gradient(to bottom,rgba(189,179,154,.3) 1px,transparent 1px);
+    background-size:calc((100% - 138px)/7) 98px,100% 98px;
+    background-position:138px 50px,0 50px;
+  }
+  .phase-head{
+    grid-row:1;display:flex;align-items:center;gap:8px;padding:0 13px;
+    border-left:1px solid rgba(189,179,154,.45);background:rgba(239,234,219,.7);
+    font-family:var(--mono);font-size:.54rem;letter-spacing:.11em;text-transform:uppercase;color:#5e6654;white-space:nowrap;
+  }
+  .phase-head b{font-family:var(--display);font-size:1.05rem;color:var(--olive-700);letter-spacing:.03em}
+  .lane-label{
+    grid-column:1;display:flex;align-items:center;gap:8px;padding:0 12px;
+    border-top:1px solid rgba(189,179,154,.45);background:rgba(247,244,234,.88);
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:#505847;
+    position:relative;z-index:2;
+  }
+  .lane-label .dot{width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+  .lane-label small{display:block;font-size:.47rem;color:#8b917f;letter-spacing:.05em;text-transform:none}
+  .map-links{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible}
+  .map-links path{fill:none;stroke:var(--olive-600);stroke-width:1.4;opacity:.55;transition:opacity .2s,stroke .2s}
+  .map-links path.dash{stroke-dasharray:4 5;stroke:var(--line-2);stroke-width:1.15}
+  .map-links path.is-dimmed{opacity:.07}
+  .map-links marker path{fill:var(--olive-600);stroke:none}
+
+  .map-node{
+    position:relative;z-index:2;align-self:center;justify-self:center;
+    width:calc(100% - 26px);max-width:212px;min-height:62px;text-align:left;
+    background:#fff;border:1px solid var(--line);border-left:3px solid var(--c);
+    padding:8px 10px 8px 11px;box-shadow:0 5px 14px -11px rgba(21,29,16,.45);
+    transition:transform .16s ease,box-shadow .16s ease,opacity .2s,border-color .16s;
+    display:flex;flex-direction:column;gap:2px;
+  }
+  .map-node:hover{transform:translateY(-2px);box-shadow:0 12px 22px -14px rgba(21,29,16,.45);border-color:var(--c)}
+  .map-node .n-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+  .map-node .n-phase{font-family:var(--mono);font-size:.47rem;letter-spacing:.1em;color:#919785;text-transform:uppercase}
+  .map-node .n-title{font-family:var(--display);font-size:.88rem;line-height:1.06;text-transform:uppercase;letter-spacing:.02em;color:#28301f}
+  .map-node .n-meta{font-family:var(--mono);font-size:.46rem;letter-spacing:.04em;color:#858b78;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .map-node .n-dot{width:6px;height:6px;border-radius:50%;background:var(--c);flex:none}
+  .map-node.active{border-color:var(--red);box-shadow:0 0 0 2px rgba(163,56,44,.22),0 14px 25px -16px rgba(21,29,16,.45);transform:translateY(-2px)}
+  .map-node.is-dimmed{opacity:.18;transform:none}
+  .map-node.is-filtered{opacity:1}
+  .node--public{--c:#5d6257}.node--cadet{--c:#95651b}.node--leader{--c:#2f5666}
+  .node--officer{--c:#4f692f}.node--admin{--c:#8f2f26}.node--system{--c:#6d4f79}
+
+  .map-detail{
+    margin-top:14px;border:1px solid var(--line-2);background:rgba(255,255,255,.72);
+    padding:20px 22px;min-height:176px;position:relative;overflow:hidden;
+  }
+  .map-detail::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--detail-accent,var(--olive-600))}
+  .detail-empty{display:flex;align-items:center;gap:16px;color:var(--muted);min-height:132px}
+  .detail-empty .pin{font-family:var(--display);font-size:2.6rem;color:var(--line-2);line-height:1}
+  .detail-empty b{display:block;font-family:var(--display);font-size:1.15rem;text-transform:uppercase;color:#4a5241;letter-spacing:.02em}
+  .detail-empty p{margin:3px 0 0;font-size:.78rem;max-width:66ch}
+  .detail-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .detail-role{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--detail-accent,var(--olive-600));padding:4px 7px}
+  .detail-role::before{content:"";width:5px;height:5px;border-radius:50%;background:#fff}
+  .detail-head .mono{color:#8b917f}
+  .map-detail h3{font-family:var(--display);font-size:1.55rem;text-transform:uppercase;letter-spacing:.02em;line-height:1;margin:0 0 5px}
+  .map-detail > p{margin:0 0 13px;font-size:.8rem;color:#4a5241;max-width:100ch}
+  .detail-grid{display:grid;grid-template-columns:1.15fr 1.15fr .7fr;gap:14px;margin:0;padding-top:12px;border-top:1px solid var(--line)}
+  .detail-grid dt{font-family:var(--mono);font-size:.49rem;letter-spacing:.1em;text-transform:uppercase;color:#8b917f;margin-bottom:3px}
+  .detail-grid dd{margin:0;font-size:.7rem;color:#3c4433;line-height:1.4}
+  .detail-grid code{font-family:var(--mono);font-size:.62rem}
+  .detail-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+  .status{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.5rem;letter-spacing:.07em;text-transform:uppercase;border:1px solid;padding:2px 5px;line-height:1.4}
+  .status.live{color:#315c2d;border-color:#b3c6a4;background:#eff5e7}
+  .status.api{color:#2f5666;border-color:#b2c5cf;background:#edf3f6}
+  .status.road{color:#8a5a17;border-color:#ddc69d;background:#fbf3e0}
+  .status.data{color:#6d4f79;border-color:#cdbad5;background:#f4edf7}
+  .status::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor}
+
+  /* ---------- permission matrix ---------- */
+  .matrix-shell{overflow-x:auto;border:1px solid var(--line-2);background:rgba(255,255,255,.55);box-shadow:var(--shadow)}
+  .matrix{width:100%;min-width:940px;border-collapse:collapse;font-size:.74rem}
+  .matrix th,.matrix td{padding:10px 12px;border-bottom:1px solid rgba(189,179,154,.42);text-align:left;vertical-align:middle}
+  .matrix thead th{background:var(--olive-950);color:#f1edde;font-family:var(--mono);font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;position:sticky;top:0}
+  .matrix thead th:first-child{width:31%}
+  .matrix tbody th{font-weight:600;font-size:.71rem;color:#39422f;background:rgba(247,244,234,.62)}
+  .matrix tbody tr:hover td,.matrix tbody tr:hover th{background:#f8f5eb}
+  .matrix td{text-align:center;font-family:var(--mono);font-size:.58rem;letter-spacing:.03em;color:#596150}
+  .matrix td .full{color:#315c2d;font-weight:700}
+  .matrix td .scoped{color:#2f5666;font-weight:700}
+  .matrix td .own{color:#8a5a17;font-weight:700}
+  .matrix td .read{color:#5d6257}
+  .matrix td .no{color:#b7ad96}
+  .matrix .group-row th{background:#e9e4d3;font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:#727a66}
+  .matrix-note{margin:12px 0 0;font-size:.68rem;color:var(--muted);max-width:90ch}
+  .matrix-note b{color:#3d4633}
+  .matrix-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:.63rem;color:var(--muted)}
+  .matrix-legend span{display:inline-flex;gap:5px;align-items:center}
+  .matrix-legend i{font-style:normal;font-family:var(--mono);font-weight:700}
+
+  /* ---------- system strip ---------- */
+  .stack{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:30px}
+  .stack-card{border:1px solid var(--line);background:rgba(255,255,255,.58);padding:15px;position:relative}
+  .stack-card::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--line-2);font-size:1.1rem;z-index:2}
+  .stack-card:last-child::after{display:none}
+  .stack-card .mono{color:var(--olive-600)}
+  .stack-card h4{font-family:var(--display);font-size:1.05rem;text-transform:uppercase;margin:7px 0 4px;letter-spacing:.02em}
+  .stack-card p{margin:0;font-size:.67rem;color:var(--muted);line-height:1.45}
+
+  /* ---------- demo route ---------- */
+  .route{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line-2);background:rgba(255,255,255,.5)}
+  .route-step{display:flex;flex-direction:column;padding:18px;border-right:1px solid var(--line);min-height:200px;position:relative;transition:background .16s}
+  .route-step:last-child{border-right:0}
+  .route-step:hover{background:#fff}
+  .route-step .time{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;color:var(--red);text-transform:uppercase}
+  .route-step .num{font-family:var(--display);font-size:2.2rem;line-height:1;color:var(--line-2);margin-top:auto;padding-top:16px}
+  .route-step h3{font-family:var(--display);font-size:1.15rem;text-transform:uppercase;letter-spacing:.02em;margin:4px 0 5px;line-height:1}
+  .route-step p{margin:0 0 12px;font-size:.69rem;color:var(--muted)}
+  .route-step a{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--olive-700);border-bottom:1px solid var(--olive-600);align-self:flex-start;padding-bottom:2px}
+  .route-step a:hover{color:var(--red)}
+
+  .note-band{margin-top:26px;border:1px solid var(--line);border-left:4px solid var(--khaki);background:rgba(228,216,185,.24);padding:16px 18px;font-size:.76rem;color:#4b5342;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+  .note-band b{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:#7a652f;padding-top:2px}
+  .note-band p{margin:0}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line-2);padding:38px 0 54px;margin-top:30px;position:relative;z-index:1}
+  .footer-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end}
+  .footer-brand{font-family:var(--display);font-size:1.4rem;text-transform:uppercase;letter-spacing:.05em}
+  .footer-brand span{color:var(--olive-600)}
+  footer p{font-size:.72rem;color:var(--muted);margin:6px 0 0;max-width:64ch}
+  .footer-meta{text-align:right;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#8b917f;line-height:1.8}
+  .footer-meta a{border-bottom:1px solid var(--line-2);color:#606852}
+  .footer-meta a:hover{color:var(--red)}
+
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:32px}
+    .hero h1{max-width:14ch}
+    .section-head{grid-template-columns:1fr;gap:14px}
+    .role-card,.role-card:nth-child(-n+2){grid-column:span 3;min-height:0}
+    .stat-strip{grid-template-columns:1fr 1fr}
+    .stat-strip div:nth-child(2){border-right:0}
+    .stat-strip div:nth-child(-n+2){border-bottom:1px solid var(--line-2)}
+    .route{grid-template-columns:1fr 1fr}
+    .route-step:nth-child(2n){border-right:0}
+    .route-step:nth-child(-n+4){border-bottom:1px solid var(--line)}
+    .stack{grid-template-columns:1fr 1fr}
+    .stack-card:nth-child(2)::after{display:none}
+    .stack-card:nth-child(-n+2){margin-bottom:2px}
+    .detail-grid{grid-template-columns:1fr 1fr}
+    .detail-grid > div:last-child{grid-column:1/-1}
+    .footer-grid{grid-template-columns:1fr}
+    .footer-meta{text-align:left}
+  }
+  @media (max-width:640px){
+    .wrap{width:calc(100% - 30px)}
+    .hero{padding:48px 0 22px}
+    .hero h1{font-size:3.5rem}
+    .top-meta .demo{display:none}
+    .brand small{letter-spacing:.14em}
+    .brand b{font-size:1rem}
+    .role-grid{grid-template-columns:1fr}
+    .role-card,.role-card:nth-child(-n+2){grid-column:1/-1}
+    .section{padding:52px 0}
+    .stat-strip{grid-template-columns:1fr}
+    .stat-strip div{border-right:0;border-bottom:1px solid var(--line-2)}
+    .stat-strip div:last-child{border-bottom:0}
+    .route{grid-template-columns:1fr}
+    .route-step{border-right:0;border-bottom:1px solid var(--line)}
+    .route-step:last-child{border-bottom:0}
+    .stack{grid-template-columns:1fr}
+    .stack-card::after{display:none}
+    .detail-grid{grid-template-columns:1fr}
+    .map-key{display:none}
+    .map-detail{padding:18px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#roles">Skip to the perspectives</a>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="index.html" aria-label="AU NCC Army Wing field guide">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 2.5 35.5 10v15.5L20 37.5 4.5 25.5V10Z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="m20 8.6 3.1 6.7h7.3l-5.9 4.7 2.2 7.1-6.7-4.3-6.7 4.3 2.2-7.1-5.9-4.7h7.3Z" fill="currentColor"/>
+      </svg>
+      <span><small>Anna University · Chennai</small><b>NCC Army Wing</b></span>
+    </a>
+    <div class="top-meta">
+      <span class="tag">Portal field guide · v1.0</span>
+      <span class="demo">Static demo · mock data</span>
+      <a href="#workflow">Workflow</a>
+      <a href="README.md">Read me</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Product walkthrough · MVP + honest gaps</p>
+        <h1>One portal.<br><em>Five</em> perspectives.</h1>
+        <p class="lede">A role-by-role field guide to the AU NCC Army Wing portal: what each person sees, what they can actually do, and how a cadet moves from a public web page to a parade roster, an audited export and the annual rollover.</p>
+        <div class="hero-note">
+          <span class="pill"><span class="dot"></span>Interactive · no login needed</span>
+          <span class="pill">4 authenticated roles + public</span>
+          <span class="pill">Built from the current codebase</span>
+        </div>
+      </div>
+      <aside class="brief" aria-label="Demo brief">
+        <p class="mono">Mission brief</p>
+        <p>“One roster. <span>Role-aware views.</span> Export-first reporting — without leaking personal data.”</p>
+        <dl>
+          <div><dt>Demo owner</dt><dd>NCC unit office</dd></div>
+          <div><dt>Audience</dt><dd>Team lead review</dd></div>
+          <div><dt>Source of truth</dt><dd>Next.js · Express · Postgres</dd></div>
+          <div><dt>Status</dt><dd>MVP + labelled gaps</dd></div>
+        </dl>
+      </aside>
+    </div>
+    <div class="stat-strip" aria-label="Portal at a glance">
+      <div><b>05</b><span>audiences to design for</span></div>
+      <div><b>06</b><span>API modules in the MVP</span></div>
+      <div><b>03</b><span>export formats · Excel / CSV / PDF</span></div>
+      <div><b>24h</b><span>attendance edit window, audited</span></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="roles">
+    <div class="section-head">
+      <div>
+        <p class="kicker">01 / The cast</p>
+        <h2>Five people.<br><em>One source of truth.</em></h2>
+      </div>
+      <div>
+        <p>Each perspective is a self-contained HTML page. Open one, switch through the live-looking screens, then follow its node-by-node journey.</p>
+        <p>Admin and officer are deliberately different: the admin owns access and lifecycle; the officer runs the wing day to day.</p>
+      </div>
+    </div>
+
+    <div class="role-grid">
+      <a class="role-card role--admin" href="admin.html">
+        <div class="role-top"><span class="role-index">01</span><span class="role-kind">System owner</span></div>
+        <h3>Super Admin</h3>
+        <span class="role-login">SUPER_ADMIN</span>
+        <p>Owns the unit's access, data boundaries and audit evidence. The only role that can deactivate a cadet or mint another super admin.</p>
+        <ul>
+          <li>Provision staff and cadet logins</li>
+          <li>Full wing scope · all PII</li>
+          <li>Deactivate, audit, annual rollover</li>
+        </ul>
+        <div class="role-foot"><span>Full wing</span><span class="go">Open dossier →</span></div>
+      </a>
+
+      <a class="role-card role--officer" href="officer.html">
+        <div class="role-top"><span class="role-index">02</span><span class="role-kind">Unit operator</span></div>
+        <h3>Officer / ANO · CTO</h3>
+        <span class="role-login">OFFICER_ANO_CTO</span>
+        <p>Runs enrolment, parades, reports and official communication. Sees the whole wing and is the only non-admin role allowed to export personal contact data.</p>
+        <ul>
+          <li>Bulk enrolment and cadet records</li>
+          <li>Wing/platoon parades and locked-session overrides</li>
+          <li>Audited Excel, CSV and PDF exports</li>
+        </ul>
+        <div class="role-foot"><span>Full wing</span><span class="go">Open dossier →</span></div>
+      </a>
+
+      <a class="role-card role--leader" href="leader.html">
+        <div class="role-top"><span class="role-index">03</span><span class="role-kind">Platoon leader</span></div>
+        <h3>Senior Under Officer</h3>
+        <span class="role-login">LEADER_SUO</span>
+        <p>A cadet leader with a staff console, hard-scoped to the platoon linked to their own cadet record. Fast marking, platoon reports, no sensitive exports.</p>
+        <ul>
+          <li>Own-platoon roster and attendance</li>
+          <li>Wing parades included in reporting</li>
+          <li>Can post notices · cannot withdraw them</li>
+        </ul>
+        <div class="role-foot"><span>Platoon scope</span><span class="go">Open dossier →</span></div>
+      </a>
+
+      <a class="role-card role--cadet" href="cadet.html">
+        <div class="role-top"><span class="role-index">04</span><span class="role-kind">Cadet / client</span></div>
+        <h3>Cadet</h3>
+        <span class="role-login">CADET</span>
+        <p>The end user. Sees their complete own record, attendance health, consent status, official notices and the public camp calendar — read-only by design.</p>
+        <ul>
+          <li>Own attendance, certificate and contacts</li>
+          <li>Urgent announcements and events</li>
+          <li>Cannot browse the wing register</li>
+        </ul>
+        <div class="role-foot"><span>Own record</span><span class="go">Open dossier →</span></div>
+      </a>
+
+      <a class="role-card role--public" href="public.html">
+        <div class="role-top"><span class="role-index">05</span><span class="role-kind">Open audience</span></div>
+        <h3>Public Visitor</h3>
+        <span class="role-login">NO LOGIN</span>
+        <p>Parents, prospective cadets, alumni and the university. Discovers the unit, reads published notices and camps, then contacts the office or signs in if issued credentials.</p>
+        <ul>
+          <li>Public news, events and notices</li>
+          <li>Organisation, about and contact</li>
+          <li>No personal data · no register access</li>
+        </ul>
+        <div class="role-foot"><span>Published only</span><span class="go">Open dossier →</span></div>
+      </a>
+    </div>
+    <p class="role-grid-note">“Client” in this guide means the cadet end user (plus the public audience). The unit's client is the Anna University NCC office; the portal's job is to serve both.</p>
+  </section>
+
+  <section class="wrap section" id="workflow">
+    <div class="section-head">
+      <div>
+        <p class="kicker">02 / End-to-end map</p>
+        <h2>From web visit<br><em>to audited record.</em></h2>
+      </div>
+      <div>
+        <p>Click any node to inspect the actor, system behaviour, data boundary and handoff. Filter the map to follow one person's path.</p>
+        <p>Solid lines are the primary journey; dashed lines are supporting handoffs or oversight.</p>
+      </div>
+    </div>
+
+    <div class="map-toolbar">
+      <div class="filters" role="group" aria-label="Filter workflow by role">
+        <button class="filter active" data-filter="all">All roles</button>
+        <button class="filter" data-filter="public" style="--c:#5d6257"><span class="dot"></span>Public</button>
+        <button class="filter" data-filter="cadet" style="--c:#95651b"><span class="dot"></span>Cadet</button>
+        <button class="filter" data-filter="leader" style="--c:#2f5666"><span class="dot"></span>Leader</button>
+        <button class="filter" data-filter="officer" style="--c:#4f692f"><span class="dot"></span>Officer</button>
+        <button class="filter" data-filter="admin" style="--c:#8f2f26"><span class="dot"></span>Super Admin</button>
+        <button class="filter" data-filter="system" style="--c:#6d4f79"><span class="dot"></span>System</button>
+      </div>
+      <div class="map-key">
+        <span><i class="key-line"></i>Primary journey</span>
+        <span><i class="key-line dash"></i>Handoff / oversight</span>
+        <span>Click a node ↓</span>
+      </div>
+    </div>
+
+    <div class="map-shell">
+      <div class="map-scroll" tabindex="0" role="region" aria-label="End-to-end workflow map, scroll horizontally">
+        <div class="map-canvas" id="mapCanvas">
+          <svg class="map-links" id="mapLinks" aria-hidden="true"></svg>
+
+          <div class="phase-head" style="grid-column:2"><b>01</b> Discover</div>
+          <div class="phase-head" style="grid-column:3"><b>02</b> Enrol</div>
+          <div class="phase-head" style="grid-column:4"><b>03</b> Access</div>
+          <div class="phase-head" style="grid-column:5"><b>04</b> Operate</div>
+          <div class="phase-head" style="grid-column:6"><b>05</b> Report</div>
+          <div class="phase-head" style="grid-column:7"><b>06</b> Inform</div>
+          <div class="phase-head" style="grid-column:8"><b>07</b> Govern</div>
+
+          <div class="lane-label" style="grid-row:2;--c:#5d6257"><span class="dot"></span><span>Public<small>no login</small></span></div>
+          <div class="lane-label" style="grid-row:3;--c:#95651b"><span class="dot"></span><span>Cadet<small>own record</small></span></div>
+          <div class="lane-label" style="grid-row:4;--c:#2f5666"><span class="dot"></span><span>Leader<small>platoon</small></span></div>
+          <div class="lane-label" style="grid-row:5;--c:#4f692f"><span class="dot"></span><span>Officer<small>whole wing</small></span></div>
+          <div class="lane-label" style="grid-row:6;--c:#8f2f26"><span class="dot"></span><span>Super Admin<small>governance</small></span></div>
+          <div class="lane-label" style="grid-row:7;--c:#6d4f79"><span class="dot"></span><span>System<small>API + audit</small></span></div>
+
+          <button class="map-node node--public" data-node="discover" data-role="public" data-x="2" data-y="2" style="grid-row:2;grid-column:2" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">01 / discover</span><span class="n-dot"></span></span>
+            <span class="n-title">Public unit site</span>
+            <span class="n-meta">News · camps · contact</span>
+          </button>
+          <button class="map-node node--officer" data-node="enrol" data-role="officer" data-x="3" data-y="5" style="grid-row:5;grid-column:3" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">02 / enrol</span><span class="n-dot"></span></span>
+            <span class="n-title">Bulk enrolment</span>
+            <span class="n-meta">Template · zod · upsert</span>
+          </button>
+          <button class="map-node node--admin" data-node="access" data-role="admin" data-x="4" data-y="6" style="grid-row:6;grid-column:4" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">03 / access</span><span class="n-dot"></span></span>
+            <span class="n-title">Provision login</span>
+            <span class="n-meta">Role · record link</span>
+          </button>
+          <button class="map-node node--system" data-node="auth" data-role="system" data-x="4" data-y="7" style="grid-row:7;grid-column:4" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">03 / access</span><span class="n-dot"></span></span>
+            <span class="n-title">Role-based sign-in</span>
+            <span class="n-meta">JWT · refresh rotation</span>
+          </button>
+          <button class="map-node node--officer" data-node="parade" data-role="officer" data-x="5" data-y="5" style="grid-row:5;grid-column:5" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">04 / operate</span><span class="n-dot"></span></span>
+            <span class="n-title">Open a parade</span>
+            <span class="n-meta">Wing or platoon session</span>
+          </button>
+          <button class="map-node node--leader" data-node="mark" data-role="leader" data-x="5" data-y="4" style="grid-row:4;grid-column:5" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">04 / operate</span><span class="n-dot"></span></span>
+            <span class="n-title">Mark the roster</span>
+            <span class="n-meta">Offline · 24h lock</span>
+          </button>
+          <button class="map-node node--officer" data-node="export" data-role="officer" data-x="6" data-y="5" style="grid-row:5;grid-column:6" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">05 / report</span><span class="n-dot"></span></span>
+            <span class="n-title">Wing export</span>
+            <span class="n-meta">XLSX · CSV · PDF</span>
+          </button>
+          <button class="map-node node--leader" data-node="leaderReport" data-role="leader" data-x="6" data-y="4" style="grid-row:4;grid-column:6" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">05 / report</span><span class="n-dot"></span></span>
+            <span class="n-title">Platoon report</span>
+            <span class="n-meta">Scoped · non-sensitive</span>
+          </button>
+          <button class="map-node node--cadet" data-node="own" data-role="cadet" data-x="6" data-y="3" style="grid-row:3;grid-column:6" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">05 / report</span><span class="n-dot"></span></span>
+            <span class="n-title">Own record</span>
+            <span class="n-meta">Attendance % · consent</span>
+          </button>
+          <button class="map-node node--officer" data-node="publish" data-role="officer" data-x="7" data-y="5" style="grid-row:5;grid-column:7" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">06 / inform</span><span class="n-dot"></span></span>
+            <span class="n-title">Publish a notice</span>
+            <span class="n-meta">Urgent · general</span>
+          </button>
+          <button class="map-node node--cadet" data-node="read" data-role="cadet" data-x="7" data-y="3" style="grid-row:3;grid-column:7" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">06 / inform</span><span class="n-dot"></span></span>
+            <span class="n-title">Read the board</span>
+            <span class="n-meta">Cadets + public</span>
+          </button>
+          <button class="map-node node--admin" data-node="govern" data-role="admin" data-x="8" data-y="6" style="grid-row:6;grid-column:8" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">07 / govern</span><span class="n-dot"></span></span>
+            <span class="n-title">Govern the register</span>
+            <span class="n-meta">Deactivate · rollover</span>
+          </button>
+          <button class="map-node node--system" data-node="audit" data-role="system" data-x="8" data-y="7" style="grid-row:7;grid-column:8" aria-pressed="false">
+            <span class="n-top"><span class="n-phase">07 / govern</span><span class="n-dot"></span></span>
+            <span class="n-title">Audit trail</span>
+            <span class="n-meta">Who · what · when · IP</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-detail" id="mapDetail" aria-live="polite">
+      <div class="detail-empty">
+        <span class="pin" aria-hidden="true">◎</span>
+        <div><b>Select a node to open the playbook</b><p>Every node explains what happens, which API or policy enforces it, the data scope, and the handoff to the next person. Use the role filters above to trace one perspective.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="permissions">
+    <div class="section-head">
+      <div>
+        <p class="kicker">03 / Permission map</p>
+        <h2>Who can do<br><em>exactly what.</em></h2>
+      </div>
+      <div>
+        <p>This is the contract the UI and API both enforce. Scopes come from the JWT plus a server-side lookup for leaders; hidden buttons are never the security boundary.</p>
+      </div>
+    </div>
+
+    <div class="matrix-shell">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Public</th>
+            <th scope="col">Cadet</th>
+            <th scope="col">Leader</th>
+            <th scope="col">Officer</th>
+            <th scope="col">Super Admin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-row"><th colspan="6">Read &amp; self-service</th></tr>
+          <tr><th scope="row">Public pages, news, events, notices</th><td class="read">Read</td><td class="read">Read</td><td class="read">Read</td><td class="read">Read</td><td class="read">Read</td></tr>
+          <tr><th scope="row">Sign in &amp; session refresh</th><td class="no">—</td><td class="own">Own</td><td class="own">Own</td><td class="own">Own</td><td class="own">Own</td></tr>
+          <tr><th scope="row">View own cadet record (incl. contacts)</th><td class="no">—</td><td class="own">Own</td><td class="own">Own</td><td class="own">Own</td><td class="own">Own</td></tr>
+          <tr><th scope="row">Browse the cadet register</th><td class="no">—</td><td class="no">—</td><td class="scoped">Platoon</td><td class="full">Wing</td><td class="full">Wing</td></tr>
+          <tr><th scope="row">See parent contact / address</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="full">Full</td><td class="full">Full</td></tr>
+
+          <tr class="group-row"><th colspan="6">Record &amp; access management</th></tr>
+          <tr><th scope="row">Create / edit cadet records</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="full">Yes</td><td class="full">Yes</td></tr>
+          <tr><th scope="row">Bulk enrol from Excel template</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="full">Yes</td><td class="full">Yes</td></tr>
+          <tr><th scope="row">Deactivate a cadet (soft delete)</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="full">Only</td></tr>
+          <tr><th scope="row">Create staff logins</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="scoped">Except super admin</td><td class="full">Any role</td></tr>
+
+          <tr class="group-row"><th colspan="6">Attendance &amp; reporting</th></tr>
+          <tr><th scope="row">Open a parade session</th><td class="no">—</td><td class="no">—</td><td class="scoped">Own platoon</td><td class="full">Wing or platoon</td><td class="full">Wing or platoon</td></tr>
+          <tr><th scope="row">Mark attendance within 24h</th><td class="no">—</td><td class="no">—</td><td class="scoped">Own platoon</td><td class="full">Wing or platoon</td><td class="full">Wing or platoon</td></tr>
+          <tr><th scope="row">Amend a locked parade</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="full">Override + audit</td><td class="full">Override + audit</td></tr>
+          <tr><th scope="row">Export cadets / reports</th><td class="no">—</td><td class="no">—</td><td class="scoped">Platoon, no PII</td><td class="full">Wing, including PII</td><td class="full">Wing, including PII</td></tr>
+
+          <tr class="group-row"><th colspan="6">Communication &amp; governance</th></tr>
+          <tr><th scope="row">Post an announcement</th><td class="no">—</td><td class="no">—</td><td class="full">Yes</td><td class="full">Yes</td><td class="full">Yes</td></tr>
+          <tr><th scope="row">Edit / withdraw an announcement</th><td class="no">—</td><td class="no">—</td><td class="no">—*</td><td class="full">Yes</td><td class="full">Yes</td></tr>
+          <tr><th scope="row">Author news &amp; camps</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="api">API only</td><td class="api">API only</td></tr>
+          <tr><th scope="row">Review audit trail</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="api">Data only†</td></tr>
+          <tr><th scope="row">Annual rollover / exits</th><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="road">Phase 2</td><td class="road">Phase 2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="matrix-note">* Leaders can publish, but the current API only lets officers edit or withdraw. &nbsp; † Audit rows are written today, but there is no read API or admin UI yet; reviewed directly in Postgres for now. &nbsp; <b>“Own”</b> means the authenticated user's linked record only.</p>
+    <div class="matrix-legend" aria-label="Legend">
+      <span><i class="full" style="color:#315c2d">FULL</i> whole wing</span>
+      <span><i class="scoped" style="color:#2f5666">SCOPED</i> platoon or limited</span>
+      <span><i class="own" style="color:#8a5a17">OWN</i> self only</span>
+      <span><i class="read" style="color:#5d6257">READ</i> published only</span>
+      <span><i class="no" style="color:#b7ad96">—</i> no access</span>
+    </div>
+
+    <div class="stack" aria-label="System layers">
+      <div class="stack-card"><p class="mono">Layer 01 / UI</p><h4>Next.js 14</h4><p>Feature folders, server-rendered public pages, role-aware client islands and a single API wrapper.</p></div>
+      <div class="stack-card"><p class="mono">Layer 02 / API</p><h4>Express + Zod</h4><p>Thin controllers, fat services, RBAC middleware and a second scope check inside the service layer.</p></div>
+      <div class="stack-card"><p class="mono">Layer 03 / Data</p><h4>Postgres + Prisma</h4><p>One schema for users, cadets, parades, records, notices, news, camps and refresh tokens.</p></div>
+      <div class="stack-card"><p class="mono">Layer 04 / Evidence</p><h4>Audit log</h4><p>Creates, edits, exports, overrides and sign-in events record actor, action, IP and filters.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="route">
+    <div class="section-head">
+      <div>
+        <p class="kicker">04 / Demo route</p>
+        <h2>Eight minutes,<br><em>five tabs.</em></h2>
+      </div>
+      <div><p>Open the pages in this order. Each one starts with the role's real landing surface, then moves into capability boundaries and the role journey.</p></div>
+    </div>
+
+    <div class="route">
+      <div class="route-step"><span class="time">0:00 · 1 min</span><span class="num">01</span><h3>Public first</h3><p>Start with what a parent or prospective cadet sees. No login, no personal data.</p><a href="public.html">Open public →</a></div>
+      <div class="route-step"><span class="time">1:00 · 2 min</span><span class="num">02</span><h3>Cadet self-serve</h3><p>Show the full own record, attendance health, consent and the notice board.</p><a href="cadet.html">Open cadet →</a></div>
+      <div class="route-step"><span class="time">3:00 · 2 min</span><span class="num">03</span><h3>Leader parade</h3><p>Open a platoon parade, mark the roster, watch the scope boundary.</p><a href="leader.html">Open leader →</a></div>
+      <div class="route-step"><span class="time">5:00 · 2 min</span><span class="num">04</span><h3>Officer reporting</h3><p>Filter the wing register, choose columns, export and publish a notice.</p><a href="officer.html">Open officer →</a></div>
+      <div class="route-step"><span class="time">7:00 · 1 min</span><span class="num">05</span><h3>Admin governance</h3><p>Provision access, deactivate a record and show the audit gap honestly.</p><a href="admin.html">Open admin →</a></div>
+    </div>
+
+    <div class="note-band">
+      <b>Honesty note</b>
+      <p>This is a UX prototype, not the running portal. Screens are populated with representative mock data and every “action” is simulated locally. Capabilities marked <span class="status live">live</span> exist in the current MVP; <span class="status api">api-ready</span>, <span class="status data">data-only</span> and <span class="status road">phase 2</span> are labelled so the team lead can separate today's build from the proposal.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-brand">AU NCC <span>Army Wing</span></div>
+      <p>Portal perspectives and end-to-end workflow pack · prepared for team lead review · October 2026.</p>
+      <p>Static HTML · inline CSS and JS · mock data only · no API calls, no personal data, no external dependencies.</p>
+    </div>
+    <div class="footer-meta">
+      <a href="README.md">Read the full role guide</a><br>
+      <a href="admin.html">Admin</a> · <a href="officer.html">Officer</a> · <a href="leader.html">Leader</a> · <a href="cadet.html">Cadet</a> · <a href="public.html">Public</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  const DETAIL = {
+    discover: {
+      role:"public", roleLabel:"Public", phase:"Phase 01 · Discover", status:["live","Live MVP"],
+      title:"The unit's front door",
+      summary:"Parents, prospective cadets, alumni and the university browse the public site: home, about, organisation, gallery, news, camps and contact. Announcements are public too. Nothing here requires a login and no cadet PII is exposed.",
+      system:"Next.js public pages · GET /news · GET /events · GET /announcements",
+      scope:"World-readable, published content only",
+      handoff:"Prospective cadet contacts ncc@annauniv.edu or visits the Kottur parade ground."
+    },
+    enrol: {
+      role:"officer", roleLabel:"Officer", phase:"Phase 02 · Enrol", status:["live","Live MVP"],
+      title:"Bulk enrolment",
+      summary:"The officer downloads the Excel template, adds one cadet per row and uploads it. Rows are validated with Zod, only template columns are read, register numbers upsert instead of duplicating, and DPDP consent is stamped on every written row.",
+      system:"GET /cadets/template · POST /cadets/bulk-upload · 2,000-row cap",
+      scope:"Wing-wide · officer and super admin only",
+      handoff:"A cadet record now exists; a login has not been issued yet."
+    },
+    access: {
+      role:"admin", roleLabel:"Super Admin", phase:"Phase 03 · Access", status:["api","Api-ready"],
+      title:"Provision a login and role",
+      summary:"The account is created with a role and optionally a register number, then linked to the matching cadet record. Officers can mint staff accounts except super admins; only a super admin can create another super admin. Public self-registration is off by default.",
+      system:"POST /auth/register (bearer token) · PATCH /cadets/:id userId",
+      scope:"SUPER_ADMIN and OFFICER only · elevated roles gated",
+      handoff:"Credentials are issued out-of-band; the user can sign in and is routed by role."
+    },
+    auth: {
+      role:"system", roleLabel:"System", phase:"Phase 03 · Access", status:["live","Live MVP"],
+      title:"Role-based sign-in",
+      summary:"Email or register number plus password returns a 15-minute access JWT and a 7-day rotating refresh token stored hashed. Every route re-checks the role server-side, and a platoon leader's scope is resolved from their linked cadet record — not from the URL.",
+      system:"POST /auth/login · /auth/refresh · GET /auth/me · rate-limited",
+      scope:"All authenticated roles · session revocation supported",
+      handoff:"Officer and admin land on the wing dashboard; leader on the platoon dashboard; cadet on self-service."
+    },
+    parade: {
+      role:"officer", roleLabel:"Officer", phase:"Phase 04 · Operate", status:["live","Live MVP"],
+      title:"Open a wing or platoon parade",
+      summary:"A session is created with date, type, optional platoon and location. It is the container every attendance record hangs from. An officer can open a whole-wing session; a leader can only open one for their own platoon.",
+      system:"POST /attendance/sessions · DRILL, WEAPON_TRAINING, MAP_READING, PT, SOCIAL_SERVICE, CLASS, OTHER",
+      scope:"Wing or selected platoon · officer",
+      handoff:"The roster is populated from active cadets in scope; the leader can mark their platoon."
+    },
+    mark: {
+      role:"leader", roleLabel:"Leader", phase:"Phase 04 · Operate", status:["live","Live MVP"],
+      title:"Mark the roster where the parade happens",
+      summary:"Mark-all-present with exceptions is the fast path. Statuses are PRESENT, ABSENT, ON_DUTY, LEAVE and MEDICAL; PRESENT plus ON_DUTY count as attended. Weak-network marks queue on the device and sync when the connection returns. Editing closes 24 hours after the parade; an officer can still amend it and the override is audited.",
+      system:"POST /attendance/sessions/:id/mark · localStorage queue · audit('attendance.override')",
+      scope:"Own platoon only for a leader · whole wing for an officer",
+      handoff:"Cached attendance percentages recompute; below-75% cadets surface on dashboards and reports."
+    },
+    export: {
+      role:"officer", roleLabel:"Officer", phase:"Phase 05 · Report", status:["live","Live MVP"],
+      title:"Filter, choose columns, export",
+      summary:"Officers filter the wing by search, department, year, rank, certificate, platoon or batch, choose from a fixed column whitelist, and download Excel, CSV or print-ready PDF. Sensitive columns are officer-only; every download is audited with filters, columns, row count and IP.",
+      system:"GET /cadets/export.{xlsx,csv,pdf} · ?columns=… · 20,000-row cap",
+      scope:"Wing-wide · sensitive columns allowed only for officers",
+      handoff:"The file goes to Group HQ / the university; the audit row remains."
+    },
+    leaderReport: {
+      role:"leader", roleLabel:"Leader", phase:"Phase 05 · Report", status:["live","Live MVP"],
+      title:"A platoon report, not a wing dump",
+      summary:"The leader sees their platoon only, plus whole-wing sessions in the report so the denominator is not short. Personal contact columns are blocked in exports even though phone and email can appear on a staff list. Parent contact and address are stripped from the leader's API payload.",
+      system:"GET /cadets/export.* · GET /attendance/report.{xlsx,pdf} · service-side scope",
+      scope:"Own platoon · non-sensitive export columns only",
+      handoff:"Anomalies and disputed attendance are escalated to the officer."
+    },
+    own: {
+      role:"cadet", roleLabel:"Cadet", phase:"Phase 05 · Report", status:["live","Live MVP"],
+      title:"The complete own record",
+      summary:"The cadet sees what the unit holds about them, including the phone, email, parent contact and address that are hidden from staff lists, plus cached attendance percentage, certificate level and DPDP consent status. It is read-only; corrections go through the office.",
+      system:"GET /cadets/me · GET /announcements · no attendance-session endpoint",
+      scope:"Own linked record only · full detail",
+      handoff:"Disputes are raised with the platoon leader or officer; the cadet cannot edit the record."
+    },
+    publish: {
+      role:"officer", roleLabel:"Officer", phase:"Phase 06 · Inform", status:["live","Live MVP"],
+      title:"Publish an official notice",
+      summary:"Officers and leaders post general or urgent announcements. Urgent notices sort first and are also visible on the public page. Officers can edit or withdraw a notice; leaders can publish but cannot manage existing ones in the current API.",
+      system:"POST /announcements · PATCH/DELETE officer-only · publishedBy",
+      scope:"Staff write · cadets and public read",
+      handoff:"Cadets prepare for the parade or camp; parents see the same public notice."
+    },
+    read: {
+      role:"cadet", roleLabel:"Cadet", phase:"Phase 06 · Inform", status:["live","Live MVP"],
+      title:"Read the board, keep the date",
+      summary:"Cadets and the public see published announcements plus the news and camp feeds. Priority ordering means an urgent notice is not buried. The board is a shared component, so one source serves home, cadet and public views.",
+      system:"GET /announcements?priority=&limit= · GET /news · GET /events",
+      scope:"Published content only",
+      handoff:"The cadet turns up for the parade/camp; attendance is marked back in Phase 04."
+    },
+    govern: {
+      role:"admin", roleLabel:"Super Admin", phase:"Phase 07 · Govern", status:["live","Live MVP"], status2:["road","Phase 2 UI"],
+      title:"Govern the register",
+      summary:"Only a super admin can deactivate a cadet: DELETE is a soft delete, so history and attendance survive. Annual promotion and exited-batch cleanup are a documented rollover slot, not a UI yet. User deactivation, password reset and audit browsing are the next governance layer.",
+      system:"DELETE /cadets/:id (soft) · rollover script slot · AuditLog writes today",
+      scope:"Wing-wide · super admin only",
+      handoff:"Exited cadets disappear from active lists but remain in historical reports; audit evidence is retained."
+    },
+    audit: {
+      role:"system", roleLabel:"System", phase:"Phase 07 · Govern", status:["data","Data only"],
+      title:"The audit trail is the receipt",
+      summary:"Every create, update, deactivation, export and attendance override writes an AuditLog row with actor, role, entity, metadata and IP. This is the DPDP evidence trail. There is no read API or admin viewer yet, so review currently happens directly in Postgres.",
+      system:"AuditLog table · fire-and-forget audit() helper",
+      scope:"System-wide · actor + IP + action metadata",
+      handoff:"Admin reviews weekly; the next step is a read-only audit screen with filters and CSV export."
+    }
+  };
+
+  const FILTER_SUMMARY = {
+    all: "Showing the complete journey. A cadet can enter through the public site, be enrolled by an officer, receive a login from the admin, train under a leader, see their own record, and eventually be deactivated or rolled over.",
+    public: "Public path: discover the unit, read published notices and camps, then contact the office. No account, no register, no personal data.",
+    cadet: "Cadet path: sign in, view the complete own record and attendance health, read urgent notices, attend parades, and raise corrections with the platoon leader.",
+    leader: "Leader path: sign in to a platoon-scoped console, open a platoon parade, mark the roster (offline if needed), pull a scoped report and post a notice.",
+    officer: "Officer path: enrol cadets, open wing or platoon parades, override locked sessions, filter and export the whole wing, then publish official communication.",
+    admin: "Admin path: provision logins and roles, link cadet records, deactivate exited cadets, and own the audit/rollover backlog. Operational screens are shared with the officer.",
+    system: "System path: authentication, authorization, scope resolution, percentage recalculation, export audit and refresh-token rotation run underneath every role."
+  };
+
+  const nodes = Array.from(document.querySelectorAll(".map-node"));
+  const detail = document.getElementById("mapDetail");
+  const svg = document.getElementById("mapLinks");
+  const canvas = document.getElementById("mapCanvas");
+  const roleColors = {public:"#5d6257",cadet:"#95651b",leader:"#2f5666",officer:"#4f692f",admin:"#8f2f26",system:"#6d4f79"};
+
+  const EDGES = [
+    ["discover","enrol",false],
+    ["enrol","access",true],
+    ["access","auth",true],
+    ["auth","parade",true],
+    ["auth","mark",true],
+    ["auth","own",false],
+    ["parade","mark",true],
+    ["parade","export",true],
+    ["mark","leaderReport",true],
+    ["mark","own",false],
+    ["export","audit",false],
+    ["leaderReport","audit",false],
+    ["access","govern",false],
+    ["govern","audit",true],
+    ["parade","publish",false],
+    ["publish","read",false]
+  ];
+
+  let activeNode = null;
+  let activeFilter = "all";
+
+  function renderLinks(){
+    if(!svg || !canvas) return;
+    const cr = canvas.getBoundingClientRect();
+    svg.setAttribute("viewBox", `0 0 ${canvas.scrollWidth} ${canvas.scrollHeight}`);
+    svg.setAttribute("width", canvas.scrollWidth);
+    svg.setAttribute("height", canvas.scrollHeight);
+    let html = '<defs><marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#5a743b"></path></marker></defs>';
+    EDGES.forEach(([from,to,dashed])=>{
+      const a = document.querySelector(`[data-node="${from}"]`);
+      const b = document.querySelector(`[data-node="${to}"]`);
+      if(!a || !b) return;
+      const ar = a.getBoundingClientRect();
+      const br = b.getBoundingClientRect();
+      const ax = ar.left - cr.left + ar.width / 2;
+      const ay = ar.top - cr.top + ar.height / 2;
+      const bx = br.left - cr.left + br.width / 2;
+      const by = br.top - cr.top + br.height / 2;
+      const dx = bx - ax;
+      const dy = by - ay;
+      let d;
+      if(Math.abs(dx) >= Math.abs(dy)){
+        const sx = dx >= 0 ? ar.right - cr.left : ar.left - cr.left;
+        const ex = dx >= 0 ? br.left - cr.left : br.right - cr.left;
+        const mx = (sx + ex) / 2;
+        d = `M ${sx} ${ay} C ${mx} ${ay}, ${mx} ${by}, ${ex} ${by}`;
+      }else{
+        const sy = dy >= 0 ? ar.bottom - cr.top : ar.top - cr.top;
+        const ey = dy >= 0 ? br.top - cr.top : br.bottom - cr.top;
+        const my = (sy + ey) / 2;
+        d = `M ${ax} ${sy} C ${ax} ${my}, ${bx} ${my}, ${bx} ${ey}`;
+      }
+      const dim = activeFilter !== "all" && !(a.dataset.role === activeFilter || b.dataset.role === activeFilter);
+      html += `<path d="${d}" class="${dashed ? "dash" : ""} ${dim ? "is-dimmed" : ""}" data-from="${from}" data-to="${to}" marker-end="url(#arrow)"></path>`;
+    });
+    svg.innerHTML = html;
+  }
+
+  function showDetail(id){
+    const data = DETAIL[id];
+    if(!data) return;
+    activeNode = id;
+    nodes.forEach(n=>{
+      const on = n.dataset.node === id;
+      n.classList.toggle("active", on);
+      n.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    detail.style.setProperty("--detail-accent", roleColors[data.role] || "#5a743b");
+    const badges = `<span class="status ${data.status[0]}">${data.status[1]}</span>` + (data.status2 ? `<span class="status ${data.status2[0]}">${data.status2[1]}</span>` : "");
+    detail.innerHTML = `
+      <div class="detail-head">
+        <span class="detail-role">${data.roleLabel}</span>
+        <span class="mono">${data.phase}</span>
+        <span class="detail-badges">${badges}</span>
+      </div>
+      <h3>${data.title}</h3>
+      <p>${data.summary}</p>
+      <dl class="detail-grid">
+        <div><dt>System behind it</dt><dd>${data.system}</dd></div>
+        <div><dt>Data scope</dt><dd>${data.scope}</dd></div>
+        <div><dt>Handoff</dt><dd>${data.handoff}</dd></div>
+      </dl>`;
+    if(window.innerWidth < 760){
+      detail.scrollIntoView({behavior:"smooth",block:"nearest"});
+    }
+  }
+
+  function showFilterSummary(){
+    detail.style.setProperty("--detail-accent","#5a743b");
+    detail.innerHTML = `
+      <div class="detail-head"><span class="detail-role">${activeFilter === "all" ? "Full journey" : activeFilter}</span><span class="mono">Role filter</span></div>
+      <h3>${activeFilter === "all" ? "All perspectives" : "Trace this perspective"}</h3>
+      <p>${FILTER_SUMMARY[activeFilter]}</p>
+      <div class="detail-grid">
+        <div><dt>How to use this map</dt><dd>Click any highlighted node for its playbook. Solid lines are the primary journey; dashed lines are handoffs or oversight.</dd></div>
+        <div><dt>Status keys</dt><dd><span class="status live">Live MVP</span> &nbsp; <span class="status api">Api-ready</span> &nbsp; <span class="status data">Data-only</span> &nbsp; <span class="status road">Phase 2</span></dd></div>
+        <div><dt>Source</dt><dd>Current routes, services and shared contract in this repository.</dd></div>
+      </div>`;
+  }
+
+  nodes.forEach(node=>{
+    node.addEventListener("click", ()=> showDetail(node.dataset.node));
+  });
+
+  document.querySelectorAll("[data-filter]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      activeFilter = btn.dataset.filter;
+      document.querySelectorAll("[data-filter]").forEach(b=>b.classList.toggle("active", b === btn));
+      nodes.forEach(n=>{
+        n.classList.toggle("is-dimmed", activeFilter !== "all" && n.dataset.role !== activeFilter);
+        n.classList.toggle("is-filtered", activeFilter !== "all" && n.dataset.role === activeFilter);
+      });
+      renderLinks();
+      if(activeNode){
+        const keep = activeFilter === "all" || DETAIL[activeNode].role === activeFilter;
+        if(keep){ showDetail(activeNode); }
+        else { activeNode = null; nodes.forEach(n=>{n.classList.remove("active");n.setAttribute("aria-pressed","false");}); showFilterSummary(); }
+      } else {
+        showFilterSummary();
+      }
+    });
+  });
+
+  // Scroll-spy for the section navigation (only anchors that exist on this page).
+  const navLinks = Array.from(document.querySelectorAll('.top-meta a[href^="#"]'));
+  const targets = navLinks.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if("IntersectionObserver" in window && targets.length){
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          navLinks.forEach(a=>a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id));
+        }
+      });
+    },{rootMargin:"-35% 0px -55% 0px"});
+    targets.forEach(t=>io.observe(t));
+  }
+
+  // Draw and redraw connectors. Fonts can settle after first paint.
+  function redraw(){ requestAnimationFrame(renderLinks); }
+  window.addEventListener("resize", redraw);
+  window.addEventListener("load", redraw);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
+  if("ResizeObserver" in window) new ResizeObserver(redraw).observe(canvas);
+  redraw();
+})();
+</script>
+</body>
+</html>

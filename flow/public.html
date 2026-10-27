@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Visitor · AU NCC Army Wing</title>
+<style>
+:root{
+  --paper:#f2eee1;--paper2:#fbfaf4;--ink:#1d2417;--muted:#67705d;
+  --olive-950:#151d10;--olive-900:#202b17;--olive-800:#2d3c1f;--olive-700:#40562c;
+  --olive-600:#5a743b;--olive-500:#768f4d;--khaki:#c9b787;--khaki-2:#e4d8b9;
+  --red:#a3382c;--red-2:#c04a3c;--blue:#2f5666;--amber:#95651b;--plum:#6d4f79;
+  --line:#d7cfba;--line-2:#bdb39a;--white:#fff;
+  --display:"Bahnschrift SemiCondensed","DIN Condensed","Arial Narrow",Impact,sans-serif;
+  --sans:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif;
+  --mono:"Cascadia Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --shadow:0 24px 60px -30px rgba(21,29,16,.45);
+  --role:#4f692f;--role-soft:rgba(79,105,47,.12);--role-ink:#fff;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:var(--sans);color:var(--ink);line-height:1.5;
+  background:radial-gradient(1100px 520px at 85% -160px,var(--role-soft),transparent 65%),linear-gradient(180deg,#f5f1e5 0%,var(--paper) 45%,#eeeadc 100%);
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:linear-gradient(rgba(32,43,23,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(32,43,23,.035) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.45) 58%,transparent 92%);
+}
+body.role-admin{--role:#8f2f26;--role-soft:rgba(143,47,38,.13)}
+body.role-officer{--role:#4f692f;--role-soft:rgba(79,105,47,.13)}
+body.role-leader{--role:#2f5666;--role-soft:rgba(47,86,102,.13)}
+body.role-cadet{--role:#95651b;--role-soft:rgba(149,101,27,.13)}
+body.role-public{--role:#5d6257;--role-soft:rgba(93,98,87,.13)}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--red-2);outline-offset:3px}
+.wrap{width:min(1240px,calc(100% - 48px));margin-inline:auto;position:relative;z-index:1}
+.mono{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
+.skip{position:absolute;left:-999px;top:8px;background:var(--khaki);color:var(--olive-950);padding:8px 12px;z-index:200}
+.skip:focus{left:8px}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:60;color:#f5f1e4;background:rgba(21,29,16,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.09)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:11px 0}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand svg{width:36px;height:36px;color:var(--khaki);flex:none}
+.brand small{display:block;font-family:var(--mono);font-size:.55rem;letter-spacing:.24em;color:var(--khaki);text-transform:uppercase;white-space:nowrap}
+.brand b{display:block;font-family:var(--display);font-size:1.14rem;letter-spacing:.09em;line-height:1.1;white-space:nowrap}
+.top-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.top-meta .tag{font-family:var(--mono);font-size:.57rem;letter-spacing:.13em;text-transform:uppercase;border:1px solid rgba(201,183,135,.38);color:var(--khaki);padding:5px 8px}
+.top-meta .demo{font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;color:#a8b09b}
+.top-meta a{font-family:var(--mono);font-size:.59rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:2px}
+.top-meta a:hover{color:var(--khaki)}
+
+/* hero */
+.role-hero{padding:64px 0 42px;position:relative;border-bottom:1px solid var(--line-2)}
+.role-hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:4px;background:linear-gradient(90deg,var(--role) 0%,var(--role) 18%,var(--khaki) 18%,var(--khaki) 21%,transparent 21%)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.55fr);gap:50px;align-items:end}
+.eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--role)}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--role)}
+.role-title-line{display:flex;align-items:flex-start;gap:18px;margin:18px 0 6px}
+.role-number{font-family:var(--display);font-size:clamp(2.8rem,6vw,5.3rem);line-height:.8;color:var(--role);opacity:.32;letter-spacing:.02em;padding-top:6px}
+.role-hero h1{font-family:var(--display);font-size:clamp(3rem,7vw,6.2rem);line-height:.86;letter-spacing:.01em;text-transform:uppercase;margin:0}
+.role-slug{font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--role);margin:4px 0 18px}
+.lede{max-width:70ch;font-size:1.02rem;color:#3d4633;margin:0}
+.pill-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 9px;border:1px solid var(--line-2);background:rgba(255,255,255,.48);font-family:var(--mono);font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;color:#4e5645}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--role)}
+.brief{background:var(--olive-950);color:#f3efdf;padding:25px 25px 21px;position:relative;border-left:4px solid var(--role);box-shadow:var(--shadow)}
+.brief::before,.brief::after{content:"";position:absolute;width:10px;height:10px;border-color:rgba(201,183,135,.45);border-style:solid}
+.brief::before{top:9px;right:9px;border-width:1px 1px 0 0}
+.brief::after{bottom:9px;left:9px;border-width:0 0 1px 1px}
+.brief .mono{color:var(--khaki)}
+.brief p{margin:12px 0 16px;font-family:var(--display);font-size:1.3rem;line-height:1.2;text-transform:uppercase;letter-spacing:.01em}
+.brief p span{color:var(--khaki)}
+.brief dl{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:0;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}
+.brief dt{font-family:var(--mono);font-size:.52rem;letter-spacing:.11em;color:#9da78f;text-transform:uppercase}
+.brief dd{margin:3px 0 0;font-size:.72rem;color:#f3efdf;line-height:1.35}
+
+/* nav */
+.section-nav{position:sticky;top:59px;z-index:50;background:rgba(242,238,225,.94);backdrop-filter:blur(9px);border-bottom:1px solid var(--line-2)}
+.section-nav .wrap{display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.section-nav .wrap::-webkit-scrollbar{display:none}
+.section-nav a{display:flex;align-items:center;gap:7px;padding:13px 20px;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#6b7360;border-bottom:2px solid transparent;white-space:nowrap}
+.section-nav a b{font-family:var(--display);font-size:.9rem;color:var(--line-2);font-weight:400;letter-spacing:.03em}
+.section-nav a:hover{color:var(--role)}
+.section-nav a.active{color:var(--role);border-bottom-color:var(--role)}
+.section-nav a.active b{color:var(--role)}
+
+/* sections */
+.section{padding:64px 0;position:relative}
+.section + .section{border-top:1px solid rgba(189,179,154,.55)}
+.section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.5fr);gap:40px;align-items:end;margin-bottom:26px}
+.kicker{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.61rem;letter-spacing:.18em;text-transform:uppercase;color:var(--role)}
+.kicker::after{content:"";height:1px;width:46px;background:var(--line-2)}
+.section-head h2{font-family:var(--display);font-size:clamp(2.1rem,4.4vw,3.7rem);line-height:.94;text-transform:uppercase;letter-spacing:.01em;margin:9px 0 0}
+.section-head h2 em{font-style:normal;color:var(--role)}
+.section-head p{font-size:.86rem;color:var(--muted);margin:0;max-width:54ch}
+.section-head p + p{margin-top:7px}
+.caption{font-size:.67rem;color:#818874;margin:10px 0 0;font-family:var(--mono);letter-spacing:.02em}
+
+/* generic buttons + fields */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 12px;background:var(--olive-800);color:#fff;border:1px solid var(--olive-800);border-radius:3px;font-size:.73rem;font-weight:600;line-height:1.2;transition:.15s}
+.btn:hover{background:var(--olive-700);border-color:var(--olive-700);transform:translateY(-1px)}
+.btn:active{transform:none}
+.btn.role{background:var(--role);border-color:var(--role)}
+.btn.role:hover{filter:brightness(.92)}
+.btn.secondary{background:#fff;color:var(--olive-800);border-color:var(--line-2)}
+.btn.secondary:hover{background:#f3f0e5}
+.btn.danger{background:#fff;color:var(--red);border-color:#d9b1ac}
+.btn.danger:hover{background:#fbf0ee}
+.btn.sm{padding:5px 8px;font-size:.64rem}
+.btn[disabled]{opacity:.42;cursor:not-allowed;transform:none}
+.btn-row{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.field{display:block;font-size:.6rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#767e6b}
+.field .input{margin-top:4px}
+.input,select.input,textarea.input{display:block;width:100%;border:1px solid var(--line-2);background:#fff;border-radius:3px;padding:7px 9px;font-size:.76rem;font-family:var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);outline:none}
+.input:focus{border-color:var(--role);box-shadow:0 0 0 3px var(--role-soft)}
+textarea.input{resize:vertical;min-height:76px}
+select.input{appearance:auto}
+
+/* app frame */
+.app-frame{border:1px solid #bdb49c;background:#fff;box-shadow:var(--shadow);border-radius:5px;overflow:hidden}
+.app-chrome{display:flex;align-items:center;gap:14px;background:#23291d;color:#d8d3c5;padding:9px 13px;font-family:var(--mono);font-size:.6rem;letter-spacing:.04em}
+.dots{display:flex;gap:6px;flex:none}
+.dots span{width:8px;height:8px;border-radius:50%;background:#727868}
+.dots span:first-child{background:#a35b50}.dots span:nth-child(2){background:#b79551}.dots span:nth-child(3){background:#6c8b58}
+.app-url{flex:1;background:rgba(255,255,255,.08);padding:5px 12px;border-radius:3px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-url b{font-weight:600;color:#fff}
+.app-chrome-tag{display:inline-flex;align-items:center;gap:5px;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:#c7d0bb;white-space:nowrap}
+.app-chrome-tag i{width:5px;height:5px;border-radius:50%;background:#8fae72;display:inline-block}
+.app-body{display:grid;grid-template-columns:214px minmax(0,1fr);min-height:620px}
+.app-sidebar{background:#f1ede1;border-right:1px solid var(--line);padding:16px 13px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.app-brand{display:flex;align-items:center;gap:9px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+.app-brand svg{width:26px;height:26px;color:var(--role);flex:none}
+.app-brand b{display:block;font-family:var(--display);font-size:.98rem;letter-spacing:.06em;line-height:1.05}
+.app-brand small{display:block;font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:#8b917f;margin-top:2px}
+.app-user{display:flex;align-items:center;gap:9px;padding:7px;background:#fff;border:1px solid var(--line)}
+.avatar{width:31px;height:31px;border-radius:50%;background:var(--role);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:.78rem;letter-spacing:.04em;flex:none}
+.app-user b{display:block;font-size:.69rem;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:112px}
+.app-user small{display:block;font-family:var(--mono);font-size:.44rem;letter-spacing:.05em;text-transform:uppercase;color:#858c79;margin-top:2px}
+.app-nav{display:flex;flex-direction:column;gap:2px}
+.app-nav button{display:flex;align-items:center;gap:8px;padding:8px 8px;background:transparent;border:0;border-left:2px solid transparent;border-radius:0;text-align:left;font-size:.73rem;color:#525b48;transition:.12s;width:100%}
+.app-nav button:hover{background:#e7e2d4;color:#28301f}
+.app-nav button.active{background:#e2ddcd;color:var(--olive-950);border-left-color:var(--role);font-weight:600}
+.nav-code{display:grid;place-items:center;width:23px;height:21px;flex:none;background:#fff;border:1px solid var(--line);font-family:var(--mono);font-size:.45rem;letter-spacing:.04em;color:#7c846f}
+.app-nav button.active .nav-code{background:var(--role);border-color:var(--role);color:#fff}
+.app-sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.46rem;letter-spacing:.05em;color:#8a917e;line-height:1.5}
+.app-sidebar-foot .online{display:inline-flex;align-items:center;gap:4px;color:#4b6a37}
+.app-sidebar-foot .online::before{content:"";width:5px;height:5px;border-radius:50%;background:#6f9252}
+.app-main{padding:22px 24px 26px;background:#fbfaf5;overflow:hidden;min-width:0}
+.view{display:none}
+.view.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.app-topline{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.app-topline .mono{font-size:.5rem;letter-spacing:.11em;color:#8b917f}
+.app-topline h3{font-family:var(--display);font-size:1.75rem;line-height:1;margin:4px 0 0;text-transform:uppercase;letter-spacing:.015em}
+.app-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.app-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.48rem;letter-spacing:.07em;text-transform:uppercase;padding:3px 6px;border:1px solid;line-height:1.3}
+.app-badge.live{color:#315c2d;border-color:#b3c6a4;background:#eff5e7}
+.app-badge.api{color:#2f5666;border-color:#b2c5cf;background:#edf3f6}
+.app-badge.road{color:#8a5a17;border-color:#ddc69d;background:#fbf3e0}
+.app-badge.data{color:#6d4f79;border-color:#cdbad5;background:#f4edf7}
+.app-badge.red{color:#8f2f26;border-color:#d9b1ac;background:#fbefed}
+.app-badge::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor}
+.scope-banner{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border:1px solid var(--line);border-left:3px solid var(--role);background:#f7f4ea;font-size:.68rem;color:#555e4a;margin-bottom:12px;line-height:1.45}
+.scope-banner b{font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:var(--role);margin-right:4px}
+.scope-banner.warn{border-left-color:var(--red);background:#fbf1ef}
+.scope-banner.warn b{color:var(--red)}
+.notice-line{display:flex;align-items:flex-start;gap:8px;font-size:.68rem;color:#6e7662;margin:10px 0 0;line-height:1.45}
+.notice-line::before{content:"i";display:grid;place-items:center;width:15px;height:15px;border:1px solid var(--line-2);border-radius:50%;font-family:var(--mono);font-size:.48rem;color:#7f8772;flex:none;margin-top:1px}
+
+/* app widgets */
+.stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.stat{border:1px solid var(--line);background:#fff;padding:11px 12px;position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;right:-20px;top:-20px;width:52px;height:52px;border-radius:50%;background:var(--role-soft)}
+.stat .label{display:block;font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;text-transform:uppercase;color:#858c79;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .value{display:block;font-family:var(--display);font-size:1.72rem;line-height:1;margin:7px 0 2px;letter-spacing:.02em}
+.stat .delta{font-size:.55rem;color:#7f8772}
+.stat.warn .value{color:var(--red)}
+.stat.good .value{color:#42632d}
+.split-2{display:grid;grid-template-columns:1.32fr .82fr;gap:9px;margin-top:9px}
+.split-2.equal{grid-template-columns:1fr 1fr}
+.panel{border:1px solid var(--line);background:#fff;padding:13px;min-width:0}
+.panel h4{font-family:var(--display);font-size:.98rem;text-transform:uppercase;letter-spacing:.03em;margin:0 0 3px;line-height:1}
+.panel .panel-sub{font-size:.58rem;color:#8b917f;margin:0 0 9px}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.mini-link{font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--role);border-bottom:1px solid var(--role);white-space:nowrap}
+.bar-list{display:grid;gap:7px;margin-top:8px}
+.bar-row{display:grid;grid-template-columns:76px 1fr 32px;gap:7px;align-items:center;font-size:.6rem;color:#606852}
+.bar-track{height:6px;background:#ece7d9;border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:var(--role);border-radius:99px}
+.bar-row b{font-family:var(--mono);font-size:.52rem;font-weight:400;text-align:right;color:#7f8772}
+.mini-list{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:0}
+.mini-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #eee9dc;font-size:.67rem}
+.mini-list li:last-child{border-bottom:0}
+.mini-list .who{display:flex;flex-direction:column;gap:1px;min-width:0}
+.mini-list .who b{font-weight:600;font-size:.66rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-list .who small{font-family:var(--mono);font-size:.47rem;color:#8b917f;letter-spacing:.03em}
+.pct{font-family:var(--mono);font-size:.56rem;color:#42632d;white-space:nowrap}
+.pct.low{color:var(--red);font-weight:700}
+.panel-foot{margin-top:9px;padding-top:8px;border-top:1px solid #eee9dc;font-size:.56rem;color:#8b917f;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.tag-list{display:flex;flex-wrap:wrap;gap:4px}
+.tag{display:inline-flex;align-items:center;padding:2px 5px;border:1px solid var(--line);background:#f7f4ea;font-family:var(--mono);font-size:.47rem;letter-spacing:.04em;text-transform:uppercase;color:#6e7662;white-space:nowrap}
+.tag.red{border-color:#ddb6b0;background:#fbefed;color:#8f2f26}
+.tag.green{border-color:#c4d2b7;background:#f0f5e9;color:#42632d}
+.tag.blue{border-color:#b9cad4;background:#eef4f7;color:#2f5666}
+.tag.amber{border-color:#dfc99e;background:#fbf4e5;color:#8a5a17}
+.tag.plum{border-color:#d1c0d8;background:#f5eef8;color:#6d4f79}
+
+/* tables */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);background:#fff}
+table.data{width:100%;border-collapse:collapse;font-size:.66rem;min-width:100%}
+.data th{background:#eee9db;text-align:left;padding:7px 8px;font-family:var(--mono);font-size:.47rem;letter-spacing:.07em;text-transform:uppercase;color:#6b7360;border-bottom:1px solid var(--line);white-space:nowrap;font-weight:400}
+.data td{padding:7px 8px;border-bottom:1px solid #efeadd;vertical-align:middle;color:#37402d;white-space:nowrap}
+.data tr:last-child td{border-bottom:0}
+.data tbody tr:hover{background:#faf7ed}
+.data .name{font-weight:600;color:#252d1e}
+.data .sub{display:block;font-family:var(--mono);font-size:.46rem;color:#8b917f;letter-spacing:.02em;margin-top:1px}
+.data .pct{display:inline-block;padding:1px 4px;border:1px solid #c4d2b7;background:#f0f5e9;color:#42632d}
+.data .pct.low{border-color:#e1bdb7;background:#fbefed;color:#8f2f26;font-weight:700}
+.data .row-actions{display:flex;gap:4px;align-items:center}
+.data .is-inactive{opacity:.45}
+.table-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:7px 2px 0;font-size:.56rem;color:#858c79}
+.pager{display:flex;gap:4px;align-items:center}
+.pager button{border:1px solid var(--line);background:#fff;padding:2px 7px;font-size:.55rem;color:#6b7360}
+.pager button.active{background:var(--olive-950);border-color:var(--olive-950);color:#fff}
+.filter-grid{display:grid;grid-template-columns:minmax(150px,1.5fr) repeat(4,minmax(0,1fr));gap:6px;margin-bottom:8px}
+.filter-grid .field{min-width:0}
+.filter-grid .input{padding:6px 7px;font-size:.69rem}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.toolbar .left,.toolbar .right{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.file-drop{display:flex;align-items:center;gap:10px;padding:10px;border:1px dashed var(--line-2);background:#f8f5eb;margin-top:8px;flex-wrap:wrap}
+.file-drop .file-ico{width:30px;height:34px;border:1px solid var(--line-2);background:#fff;position:relative;flex:none}
+.file-drop .file-ico::after{content:"XLSX";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:.37rem;letter-spacing:.03em;color:#42632d}
+.file-drop .file-text{flex:1;min-width:150px}
+.file-drop .file-text b{display:block;font-size:.68rem}
+.file-drop .file-text small{display:block;font-size:.53rem;color:#858c79;margin-top:1px;line-height:1.35}
+.file-drop input[type=file]{display:none}
+
+/* attendance */
+.parade-bar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px;padding:9px;border:1px solid var(--line);background:#f7f4ea;margin-bottom:9px}
+.parade-bar .field{min-width:120px}
+.parade-bar .grow{flex:1}
+.roster{border:1px solid var(--line);background:#fff}
+.roster-head{display:grid;grid-template-columns:minmax(0,1.5fr) 132px 70px;gap:8px;padding:6px 9px;background:#eee9db;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.45rem;letter-spacing:.07em;text-transform:uppercase;color:#6b7360}
+.roster-row{display:grid;grid-template-columns:minmax(0,1.5fr) 132px 70px;gap:8px;align-items:center;padding:6px 9px;border-bottom:1px solid #efeadd;font-size:.68rem}
+.roster-row:last-child{border-bottom:0}
+.roster-row .who b{display:block;font-weight:600;font-size:.66rem}
+.roster-row .who small{display:block;font-family:var(--mono);font-size:.46rem;color:#8b917f;margin-top:1px}
+.roster-row select{padding:4px 5px;font-size:.62rem;border:1px solid var(--line);background:#fff}
+.roster-row.is-absent{background:#fbf4f2}
+.roster-row.is-present{background:#f5f8ef}
+.roster-row .pct{text-align:right}
+.attendance-legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:.54rem;color:#7f8772}
+.attendance-legend span{display:inline-flex;align-items:center;gap:3px}
+.attendance-legend i{width:6px;height:6px;border-radius:50%;display:inline-block}
+.queue-pill{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.46rem;letter-spacing:.05em;text-transform:uppercase;padding:3px 6px;border:1px solid #ddc69d;background:#fbf3e0;color:#8a5a17;white-space:nowrap}
+.queue-pill::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor}
+
+/* announcements */
+.notice-list{display:grid;gap:6px}
+.notice{border:1px solid var(--line);border-left:3px solid var(--olive-600);padding:9px 11px;background:#fff;position:relative}
+.notice.urgent{border-left-color:var(--red)}
+.notice h5{font-size:.72rem;margin:0 0 2px;line-height:1.3;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.notice p{font-size:.64rem;color:#5e6654;margin:0;line-height:1.45}
+.notice .meta{display:flex;align-items:center;gap:6px;margin-top:4px;font-family:var(--mono);font-size:.44rem;letter-spacing:.03em;color:#939a87}
+.notice .withdraw{margin-left:auto;border:0;background:transparent;font-family:var(--mono);font-size:.48rem;letter-spacing:.04em;text-transform:uppercase;color:#8f2f26;border-bottom:1px solid #d9b1ac;padding:0 0 1px}
+.compose{display:grid;gap:6px}
+.compose-row{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:6px}
+.compose-row .input{padding:6px 8px;font-size:.7rem}
+.compose textarea.input{font-size:.7rem;padding:6px 8px}
+.compose-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.compose-note{font-size:.53rem;color:#8b917f}
+.success-line{font-size:.6rem;color:#42632d;min-height:14px}
+
+/* cadet profile */
+.profile-hero{display:flex;align-items:center;gap:18px;padding:14px;border:1px solid var(--line);background:#fff;flex-wrap:wrap}
+.ring{--pct:82.5;width:104px;height:104px;border-radius:50%;background:conic-gradient(var(--role) calc(var(--pct)*1%),#e9e4d5 0);display:grid;place-items:center;position:relative;flex:none}
+.ring::before{content:"";position:absolute;inset:9px;border-radius:50%;background:#fff}
+.ring .ring-inner{position:relative;text-align:center}
+.ring b{display:block;font-family:var(--display);font-size:1.45rem;line-height:1}
+.ring small{display:block;font-family:var(--mono);font-size:.42rem;letter-spacing:.05em;text-transform:uppercase;color:#8b917f;margin-top:2px}
+.profile-summary{flex:1;min-width:170px}
+.profile-summary h4{font-family:var(--display);font-size:1.36rem;text-transform:uppercase;letter-spacing:.02em;margin:0}
+.profile-summary p{font-size:.66rem;color:#68705d;margin:3px 0 6px;line-height:1.4}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;margin:10px 0 0}
+.detail-grid > div{border-bottom:1px solid #eee9dc;padding-bottom:5px}
+.detail-grid dt{font-family:var(--mono);font-size:.45rem;letter-spacing:.07em;text-transform:uppercase;color:#8b917f;margin:0 0 1px}
+.detail-grid dd{margin:0;font-size:.66rem;color:#37402d}
+.readonly{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.44rem;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line-2);background:#f7f4ea;color:#6e7662;padding:2px 5px}
+.cert-track{display:flex;align-items:center;gap:4px;margin-top:5px}
+.cert-step{display:inline-flex;align-items:center;justify-content:center;width:23px;height:20px;border:1px solid var(--line-2);font-family:var(--mono);font-size:.48rem;color:#8b917f;background:#f7f4ea}
+.cert-step.done{background:var(--role);border-color:var(--role);color:#fff}
+.cert-step.current{border-color:var(--role);color:var(--role);font-weight:700;background:#fff}
+.event-list{display:grid;gap:6px}
+.event{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:9px;align-items:center;padding:8px 9px;border:1px solid var(--line);background:#fff}
+.event .date{background:var(--olive-950);color:#fff;text-align:center;padding:4px 2px;font-family:var(--mono);font-size:.47rem;line-height:1.2}
+.event .date b{display:block;font-family:var(--display);font-size:1.08rem;line-height:1;letter-spacing:.02em}
+.event h5{font-size:.7rem;margin:0;line-height:1.25}
+.event p{font-size:.56rem;color:#858c79;margin:1px 0 0}
+.event .tag{font-size:.43rem}
+
+/* public site */
+.site-frame .app-body{display:block;min-height:0}
+.site-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 18px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.site-brand{display:flex;align-items:center;gap:8px;font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-size:1rem}
+.site-brand svg{width:24px;height:24px;color:var(--olive-700)}
+.site-nav{display:flex;gap:2px;flex-wrap:wrap;align-items:center}
+.site-nav button{border:0;background:transparent;padding:6px 8px;font-size:.66rem;color:#5e6654;border-bottom:2px solid transparent}
+.site-nav button:hover{color:var(--olive-800)}
+.site-nav button.active{color:var(--olive-900);border-bottom-color:var(--role);font-weight:600}
+.site-nav .login{border:1px solid var(--olive-800);padding:5px 10px;color:#fff;background:var(--olive-800);margin-left:4px;border-bottom:0}
+.site-main{padding:18px}
+.public-hero{position:relative;overflow:hidden;background:radial-gradient(600px 260px at 0% 0%,rgba(255,255,255,.2),transparent),linear-gradient(135deg,#4a5f2a 0%,#35461f 58%,#242e16 100%);color:#fff;padding:26px 28px;min-height:216px;display:flex;flex-direction:column;justify-content:center}
+.public-hero::after{content:"NCC";position:absolute;right:-8px;bottom:-45px;font-family:var(--display);font-size:11rem;line-height:1;color:rgba(255,255,255,.055);letter-spacing:.03em;pointer-events:none}
+.public-hero .motto{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki)}
+.public-hero h3{font-family:var(--display);font-size:clamp(2rem,4vw,3rem);line-height:.94;text-transform:uppercase;letter-spacing:.01em;max-width:18ch;margin:12px 0 9px}
+.public-hero p{font-size:.72rem;max-width:58ch;margin:0 0 14px;color:#e8e7d8}
+.public-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:9px;margin-top:9px}
+.public-card{border:1px solid var(--line);background:#fff;padding:13px}
+.public-card h4{font-family:var(--display);font-size:1rem;text-transform:uppercase;letter-spacing:.03em;margin:0 0 4px}
+.public-card p{font-size:.64rem;color:#5e6654;margin:0 0 7px;line-height:1.45}
+.public-card .more{font-family:var(--mono);font-size:.5rem;letter-spacing:.05em;text-transform:uppercase;color:var(--role);border-bottom:1px solid var(--role);padding-bottom:1px}
+.news-feature{display:grid;grid-template-columns:1.1fr .9fr;gap:9px}
+.news-lead{border:1px solid var(--line);background:var(--olive-950);color:#f4f0e1;padding:18px}
+.news-lead .mono{color:var(--khaki)}
+.news-lead h3{font-family:var(--display);font-size:1.55rem;text-transform:uppercase;line-height:1;margin:9px 0 6px}
+.news-lead p{font-size:.65rem;color:#d8d6c7;margin:0}
+.news-stack{display:grid;gap:6px}
+.login-box{margin-top:9px;border:1px solid var(--line);background:#fff;padding:16px;max-width:380px}
+.login-box h4{font-family:var(--display);font-size:1.15rem;text-transform:uppercase;margin:0 0 3px}
+.login-box p{font-size:.62rem;color:#7f8772;margin:0 0 9px;line-height:1.4}
+.login-box .field{margin-bottom:6px}
+.login-box .btn{width:100%;margin-top:3px}
+.login-note{font-size:.52rem;color:#8b917f;margin-top:7px;line-height:1.4}
+
+/* capability cards */
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cap-card{border:1px solid var(--line);border-top:3px solid var(--role);background:rgba(255,255,255,.72);padding:15px;position:relative;min-height:150px}
+.cap-card .cap-num{font-family:var(--display);font-size:1.4rem;color:var(--line-2);line-height:1}
+.cap-card h3{font-family:var(--display);font-size:1.16rem;line-height:1.05;text-transform:uppercase;letter-spacing:.025em;margin:9px 0 5px}
+.cap-card p{font-size:.68rem;color:#5e6654;margin:0 0 10px;line-height:1.45}
+.cap-card .status{margin-top:auto;display:inline-flex}
+.status{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid;padding:2px 5px;line-height:1.4}
+.status.live{color:#315c2d;border-color:#b3c6a4;background:#eff5e7}
+.status.api{color:#2f5666;border-color:#b2c5cf;background:#edf3f6}
+.status.road{color:#8a5a17;border-color:#ddc69d;background:#fbf3e0}
+.status.data{color:#6d4f79;border-color:#cdbad5;background:#f4edf7}
+.status::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor}
+.boundary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.boundary{border:1px solid var(--line);background:rgba(255,255,255,.65);padding:16px;border-top:3px solid var(--olive-600)}
+.boundary.denied{border-top-color:var(--red)}
+.boundary h3{font-family:var(--display);font-size:1.1rem;text-transform:uppercase;letter-spacing:.03em;margin:0 0 7px;display:flex;align-items:center;gap:7px}
+.boundary h3 span{font-family:var(--mono);font-size:.46rem;letter-spacing:.06em;text-transform:uppercase;color:#8b917f;border:1px solid var(--line);padding:2px 4px;font-weight:400}
+.boundary ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.68rem;color:#4b5342;line-height:1.45}
+.boundary li{display:flex;gap:7px;align-items:baseline}
+.boundary li::before{content:"—";color:var(--olive-600);font-weight:700;flex:none}
+.boundary.denied li::before{content:"×";color:var(--red);font-weight:700}
+
+/* journey */
+.journey-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:start}
+.journey{position:relative;display:grid;gap:0}
+.journey::before{content:"";position:absolute;left:18px;top:18px;bottom:18px;width:1px;background:var(--line-2)}
+.journey-step{position:relative;display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 0;background:transparent;border:0;text-align:left;color:inherit;border-radius:0}
+.journey-step .step-dot{position:relative;z-index:1;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line-2);background:var(--paper2);font-family:var(--mono);font-size:.58rem;color:#858c79;transition:.15s}
+.journey-step .step-body{padding-top:2px;min-width:0}
+.journey-step h4{font-family:var(--display);font-size:1.05rem;line-height:1.05;text-transform:uppercase;letter-spacing:.025em;margin:0 0 2px;transition:color .15s}
+.journey-step p{font-size:.62rem;color:#7a826e;margin:0;line-height:1.4;max-width:48ch}
+.journey-step .step-role{font-family:var(--mono);font-size:.44rem;letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--line);padding:2px 5px;color:#8b917f;white-space:nowrap;margin-top:3px}
+.journey-step:hover h4{color:var(--role)}
+.journey-step.active .step-dot{background:var(--role);border-color:var(--role);color:#fff;box-shadow:0 0 0 4px var(--role-soft)}
+.journey-step.active h4{color:var(--role)}
+.journey-step.active .step-role{border-color:var(--role);color:var(--role);background:var(--role-soft)}
+.journey-detail{position:sticky;top:125px;border:1px solid var(--line-2);background:rgba(255,255,255,.78);padding:20px;min-height:300px;border-top:4px solid var(--role)}
+.journey-detail .jd-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.journey-detail .jd-top .mono{font-size:.48rem;color:#8b917f}
+.journey-detail h3{font-family:var(--display);font-size:1.55rem;line-height:1;text-transform:uppercase;letter-spacing:.02em;margin:0 0 7px}
+.journey-detail > p{font-size:.75rem;color:#4b5342;margin:0 0 14px;line-height:1.5}
+.jd-grid{display:grid;gap:9px;margin:0;padding-top:11px;border-top:1px solid var(--line)}
+.jd-grid dt{font-family:var(--mono);font-size:.45rem;letter-spacing:.08em;text-transform:uppercase;color:#8b917f;margin-bottom:1px}
+.jd-grid dd{margin:0;font-size:.66rem;color:#37402d;line-height:1.45}
+.jd-grid code{font-family:var(--mono);font-size:.58rem}
+.jd-status{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.journey-controls{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.journey-controls .progress{font-family:var(--mono);font-size:.52rem;color:#8b917f;letter-spacing:.06em}
+.play-btn{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--line-2);background:#fff;font-family:var(--mono);font-size:.48rem;letter-spacing:.05em;text-transform:uppercase;color:#606852}
+.play-btn:hover{background:#f3f0e5}
+
+/* notes / evidence */
+.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.evidence{border:1px solid var(--line);background:rgba(255,255,255,.62);padding:13px}
+.evidence .mono{font-size:.46rem;color:#8b917f}
+.evidence h4{font-family:var(--display);font-size:.98rem;text-transform:uppercase;letter-spacing:.03em;margin:5px 0 5px}
+.evidence p{font-size:.62rem;color:#5e6654;margin:0 0 7px;line-height:1.4}
+.evidence code{display:block;font-family:var(--mono);font-size:.56rem;line-height:1.5;color:#3d4a2e;background:#f4f0e4;border-left:2px solid var(--role);padding:4px 6px;word-break:break-word}
+.evidence code + code{margin-top:3px}
+.note-band{margin-top:16px;border:1px solid var(--line);border-left:4px solid var(--khaki);background:rgba(228,216,185,.24);padding:14px 16px;font-size:.72rem;color:#4b5342;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.note-band b{font-family:var(--mono);font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;color:#7a652f;padding-top:2px}
+.note-band p{margin:0;line-height:1.5}
+.note-band code{font-family:var(--mono);font-size:.62rem}
+.demo-list{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.demo-list div{border:1px solid var(--line);background:#fff;padding:12px;font-size:.66rem;color:#4b5342;line-height:1.45}
+.demo-list b{display:block;font-family:var(--mono);font-size:.47rem;letter-spacing:.08em;text-transform:uppercase;color:var(--role);margin-bottom:4px}
+
+/* persona extras */
+.chip-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.chip{border:1px solid var(--line-2);background:#fff;padding:3px 7px;font-family:var(--mono);font-size:.48rem;letter-spacing:.05em;text-transform:uppercase;color:#6e7662;line-height:1.5}
+.chip:hover{border-color:var(--role);color:var(--role)}
+.chip[aria-pressed="true"]{background:var(--role);border-color:var(--role);color:#fff}
+.chip[aria-pressed="false"]{text-decoration:line-through;opacity:.62}
+.export-hint{font-family:var(--mono);font-size:.48rem;letter-spacing:.04em;color:#8b917f;margin-left:auto}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px}
+.photo-tile{position:relative;min-height:154px;display:flex;flex-direction:column;justify-content:flex-end;padding:11px;overflow:hidden;border:1px solid #33421f;color:#f4f0e1;background:linear-gradient(150deg,#51672f 0%,#33441f 58%,#232e17 100%)}
+.photo-tile:nth-child(2){background:linear-gradient(150deg,#6c5b33 0%,#4a3d20 60%,#2b2517 100%)}
+.photo-tile:nth-child(3){background:linear-gradient(150deg,#3b5864 0%,#2e424a 58%,#1e2a2e 100%)}
+.photo-tile:nth-child(4){background:linear-gradient(150deg,#5b4630 0%,#3d2f20 60%,#241c12 100%)}
+.photo-tile:nth-child(5){background:linear-gradient(150deg,#4b4f36 0%,#343824 60%,#202314 100%)}
+.photo-tile:nth-child(6){background:linear-gradient(150deg,#3f4a2f 0%,#2b331e 58%,#1b2113 100%)}
+.photo-tile::before{content:"AU NCC";position:absolute;right:-12px;bottom:-18px;font-family:var(--display);font-size:4.4rem;line-height:1;color:rgba(255,255,255,.08);letter-spacing:.04em;pointer-events:none}
+.photo-tile .tile-tag{position:absolute;top:8px;left:8px;font-family:var(--mono);font-size:.43rem;letter-spacing:.07em;text-transform:uppercase;border:1px solid rgba(201,183,135,.55);color:var(--khaki);padding:2px 5px;background:rgba(21,29,16,.35)}
+.photo-tile b{position:relative;font-family:var(--display);font-size:.92rem;text-transform:uppercase;letter-spacing:.03em;line-height:1.05}
+.photo-tile small{position:relative;font-family:var(--mono);font-size:.42rem;letter-spacing:.04em;color:#c9c7b8;margin-top:3px}
+.photo-tile.is-locked{background:repeating-linear-gradient(135deg,#eee9db,#eee9db 9px,#e5dfcd 9px,#e5dfcd 18px);border-color:var(--line-2);color:#6e7662;justify-content:center;text-align:center;align-items:center}
+.photo-tile.is-locked::before{content:"CONSENT";font-size:2.3rem;color:rgba(32,43,23,.08);right:auto;bottom:auto;top:50%;left:50%;transform:translate(-50%,-50%)}
+.photo-tile.is-locked b{font-size:.82rem}
+.photo-tile.is-locked small{color:#8b917f}
+.login-split{display:grid;grid-template-columns:1.05fr .95fr;gap:9px;align-items:start;margin-top:9px}
+.login-aside{border:1px solid var(--line);background:var(--olive-950);color:#f3efdf;padding:18px}
+.login-aside .mono{color:var(--khaki)}
+.login-aside h4{font-family:var(--display);font-size:1.3rem;line-height:1;text-transform:uppercase;margin:10px 0 6px}
+.login-aside p{font-size:.65rem;color:#d8d6c7;line-height:1.5;margin:0 0 9px}
+.login-aside ul{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:.62rem;color:#e8e6d7}
+.login-aside li::before{content:"—";color:var(--khaki);margin-right:6px}
+.org-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.org-unit{border:1px solid var(--line);border-top:3px solid var(--role);background:#fff;padding:11px}
+.org-unit b{display:block;font-family:var(--display);font-size:.9rem;text-transform:uppercase;letter-spacing:.03em}
+.org-unit small{display:block;font-family:var(--mono);font-size:.45rem;letter-spacing:.05em;text-transform:uppercase;color:#8b917f;margin:2px 0 4px}
+.org-unit p{font-size:.6rem;color:#606852;margin:0;line-height:1.4}
+.site-main .section-head{grid-template-columns:1fr;gap:6px;margin-bottom:14px}
+.site-main .section-head h2{font-size:2rem}
+.site-main .notice-line{margin-top:9px}
+
+/* modal + toast */
+.modal-backdrop{position:fixed;inset:0;background:rgba(21,29,16,.62);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal-backdrop.open{display:flex}
+.modal{width:min(460px,100%);background:var(--paper2);border:1px solid var(--line-2);box-shadow:0 30px 80px -25px rgba(0,0,0,.5);padding:22px;position:relative;max-height:90vh;overflow:auto}
+.modal::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--role)}
+.modal h3{font-family:var(--display);font-size:1.45rem;text-transform:uppercase;letter-spacing:.02em;margin:0 0 3px}
+.modal p{font-size:.67rem;color:#7f8772;margin:0 0 13px;line-height:1.45}
+.modal .field{margin-bottom:7px}
+.modal .modal-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:12px}
+.modal .modal-close{position:absolute;right:10px;top:8px;border:0;background:transparent;font-family:var(--mono);font-size:.8rem;color:#8b917f;padding:4px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.toast{position:fixed;right:22px;bottom:22px;z-index:150;background:var(--olive-950);color:#f5f1e4;padding:11px 14px;border-left:3px solid var(--khaki);font-size:.72rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.5);max-width:340px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.22s;line-height:1.4}
+.toast.show{opacity:1;transform:none}
+.toast b{color:var(--khaki);font-family:var(--mono);font-size:.53rem;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:2px}
+
+/* footer */
+footer{border-top:1px solid var(--line-2);padding:34px 0 46px;margin-top:24px;position:relative;z-index:1}
+.footer-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end}
+.footer-brand{font-family:var(--display);font-size:1.35rem;text-transform:uppercase;letter-spacing:.05em}
+.footer-brand span{color:var(--role)}
+footer p{font-size:.69rem;color:var(--muted);margin:5px 0 0;max-width:66ch}
+.footer-meta{text-align:right;font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:#8b917f;line-height:1.9}
+.footer-meta a{border-bottom:1px solid var(--line-2);color:#606852}
+.footer-meta a:hover{color:var(--role)}
+
+@media (max-width:1050px){
+  .hero-grid{grid-template-columns:1fr;gap:28px}
+  .section-head{grid-template-columns:1fr;gap:12px}
+  .app-body{grid-template-columns:190px minmax(0,1fr)}
+  .cap-grid{grid-template-columns:1fr 1fr}
+  .journey-layout{grid-template-columns:1fr;gap:18px}
+  .journey-detail{position:static}
+  .evidence-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:820px){
+  .app-body{grid-template-columns:1fr;min-height:0}
+  .app-sidebar{padding:10px 12px;display:block;border-right:0;border-bottom:1px solid var(--line)}
+  .app-brand,.app-user,.app-sidebar-foot{display:none}
+  .app-nav{flex-direction:row;overflow-x:auto;gap:2px;scrollbar-width:none}
+  .app-nav::-webkit-scrollbar{display:none}
+  .app-nav button{width:auto;white-space:nowrap;border-left:0;border-bottom:2px solid transparent;padding:7px 9px;flex:none}
+  .app-nav button.active{border-left-color:transparent;border-bottom-color:var(--role)}
+  .app-main{padding:17px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .split-2,.split-2.equal{grid-template-columns:1fr}
+  .filter-grid{grid-template-columns:1fr 1fr}
+  .cap-grid{grid-template-columns:1fr}
+  .boundary-grid{grid-template-columns:1fr}
+  .evidence-grid{grid-template-columns:1fr}
+  .demo-list{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .public-grid,.news-feature,.login-split{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .org-cols{grid-template-columns:1fr}
+  .site-nav{width:100%}
+  .section-nav{top:58px}
+  .journey-detail{min-height:0}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-meta{text-align:left}
+  .top-meta .demo{display:none}
+}
+@media (max-width:560px){
+  .wrap{width:calc(100% - 30px)}
+  .role-title-line{gap:10px}
+  .role-hero{padding:44px 0 32px}
+  .role-hero h1{font-size:3rem}
+  .role-number{font-size:2.6rem}
+  .section{padding:46px 0}
+  .top-meta .tag{display:none}
+  .brand small{letter-spacing:.12em}
+  .brand b{font-size:1rem}
+  .compose-row{grid-template-columns:1fr}
+  .parade-bar .field{min-width:100%}
+  .gallery-grid{grid-template-columns:1fr}
+  .photo-tile{min-height:132px}
+  .roster-head{grid-template-columns:minmax(0,1.4fr) 102px 50px}
+  .roster-row{grid-template-columns:minmax(0,1.4fr) 102px 50px}
+  .detail-grid{grid-template-columns:1fr}
+  .public-hero{padding:20px}
+  .public-hero h3{font-size:1.9rem}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .app-chrome-tag{display:none}
+  .journey-step{grid-template-columns:34px minmax(0,1fr)}
+  .journey-step .step-role{display:none}
+  .demo-list{grid-template-columns:1fr}
+  .note-band{grid-template-columns:1fr;gap:4px}
+  .toast{left:15px;right:15px;bottom:15px;max-width:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+</style>
+</head>
+<body class="role-public">
+<a class="skip" href="#top">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="index.html" aria-label="AU NCC Army Wing field guide">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 2.5 35.5 10v15.5L20 37.5 4.5 25.5V10Z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="m20 8.6 3.1 6.7h7.3l-5.9 4.7 2.2 7.1-6.7-4.3-6.7 4.3 2.2-7.1-5.9-4.7h7.3Z" fill="currentColor"/>
+      </svg>
+      <span><small>Anna University · Chennai</small><b>NCC Army Wing</b></span>
+    </a>
+    <div class="top-meta">
+      <span class="tag">Perspective 05 · The open door</span>
+      <span class="demo">Static demo · mock data</span>
+      <a href="#workflow">Workflow</a>
+      <a href="index.html">All roles</a>
+      <a href="README.md">Read me</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap role-hero">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Perspective 05 · The open door</p>
+        <div class="role-title-line"><span class="role-number" aria-hidden="true">05</span><h1>Public</h1></div>
+        <p class="role-slug">ANONYMOUS · Parent / prospective cadet / visitor</p>
+        <p class="lede">The unit's public face. A parent, prospective cadet, alumnus or journalist can read the mission, news, events, notices and contact details without an account. No roster, no attendance, no personal data. Sign-in is only for provisioned accounts.</p>
+        <div class="pill-row">
+          <span class="pill"><span class="dot"></span>No login required</span>
+          <span class="pill">Zero PII</span>
+          <span class="pill">World-readable content</span>
+          <span class="pill">Provisioned sign-in only</span>
+        </div>
+      </div>
+      <aside class="brief" aria-label="Role brief">
+        <p class="mono">Role brief</p>
+        <p>“Open door. <span>Closed data.</span>”</p>
+        <dl>
+          <div><dt>Demo login</dt><dd>None · browse anonymously</dd></div>
+          <div><dt>Scope</dt><dd>Published public content</dd></div>
+          <div><dt>PII</dt><dd>None</dd></div>
+          <div><dt>Landing</dt><dd>Public home</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <nav class="section-nav" aria-label="Page sections">
+    <div class="wrap">
+      <a href="#screens" class="active"><b>01</b> Screens</a>
+      <a href="#capabilities"><b>02</b> Capabilities</a>
+      <a href="#workflow"><b>03</b> Workflow</a>
+      <a href="#notes"><b>04</b> Evidence &amp; gaps</a>
+    </div>
+  </nav>
+
+  <section class="section" id="screens">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">01 / What they see</p>
+          <h2>The public face.<br><em>Nothing behind it.</em></h2>
+        </div>
+        <div>
+          <p>A real public website with a working navigation: home, news and events, the unit story, a consent-gated gallery shelf and contact. The sign-in route is real; registration is not.</p>
+          <p>Everything in the frame is local mock content. The tabs and the gallery gate are interactive.</p>
+        </div>
+      </div>
+
+      <div class="app-frame site-frame">
+        <div class="app-chrome">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="app-url">ncc.annauniv.edu/<b id="appPath">public/home</b></div>
+          <span class="app-chrome-tag"><i></i> Public · no session</span>
+        </div>
+        <div class="app-body">
+          <div class="site-top">
+            <div class="site-brand">
+              <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2.5 35.5 10v15.5L20 37.5 4.5 25.5V10Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m20 8.6 3.1 6.7h7.3l-5.9 4.7 2.2 7.1-6.7-4.3-6.7 4.3 2.2-7.1-5.9-4.7h7.3Z" fill="currentColor"/></svg>
+              <span>AU NCC Army Wing</span>
+            </div>
+            <nav class="site-nav" aria-label="Public site">
+              <button type="button" class="active" data-view="home" data-path="public/home">Home</button>
+              <button type="button" data-view="news" data-path="public/news">News &amp; events</button>
+              <button type="button" data-view="about" data-path="public/about">About</button>
+              <button type="button" data-view="gallery" data-path="public/gallery">Gallery</button>
+              <button type="button" data-view="contact" data-path="public/contact">Contact</button>
+              <button type="button" class="login" data-view="login" data-path="login">Sign in</button>
+            </nav>
+          </div>
+
+          <div class="site-main">
+            <section class="view active" id="view-home" aria-labelledby="public-home-title">
+              <div class="public-hero">
+                <p class="motto">Anna University · Chennai · NCC Army Wing</p>
+                <h3 id="public-home-title">Unity and discipline, in the field and in the record.</h3>
+                <p>Training young citizens in drill, adventure, service and leadership — and keeping the unit's public record open to the families and communities it serves.</p>
+                <div class="btn-row">
+                  <button class="btn" type="button" data-view="about" data-path="public/about" style="background:#f2eee1;color:#202b17;border-color:#f2eee1">Explore the unit</button>
+                  <button class="btn" type="button" data-view="news" data-path="public/news" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)">News &amp; events</button>
+                </div>
+              </div>
+
+              <div class="public-grid">
+                <div class="public-card">
+                  <div class="panel-head"><div><h4>Latest official notices</h4><p class="panel-sub">The same board the cadets read</p></div><span class="status live">Public</span></div>
+                  <div class="notice-list">
+                    <article class="notice urgent"><h5>Blood donation camp · 30 Oct <span class="tag red">URGENT</span></h5><p>Voluntary camp at the main auditorium, 08:30. Open to the university community.</p></article>
+                    <article class="notice"><h5>CATC selection list published</h5><p>Forty cadets are nominated for the October cycle. The serial list is on the board outside the NCC office.</p></article>
+                    <article class="notice"><h5>Parade timings · revised</h5><p>From 29 Oct, the wing parade forms at 06:30 at the Kottur ground.</p></article>
+                  </div>
+                  <div class="panel-foot"><span>No login needed.</span><button class="mini-link" type="button" data-view="news" data-path="public/news">All news →</button></div>
+                </div>
+                <div class="public-card">
+                  <h4>At a glance</h4>
+                  <p>Four pillars, one unit. The public pages describe the training and the calendar; they never expose a cadet's record.</p>
+                  <ul class="mini-list">
+                    <li><span class="who"><b>Drill &amp; discipline</b><small>Parade, weapon training, drill tests</small></span><span class="tag green">Training</span></li>
+                    <li><span class="who"><b>Adventure</b><small>ATC, trekking, camp craft</small></span><span class="tag blue">Camps</span></li>
+                    <li><span class="who"><b>Service</b><small>Blood donation, plantation, community drives</small></span><span class="tag">Service</span></li>
+                    <li><span class="who"><b>Leadership</b><small>RDC, TSC, CATC selections</small></span><span class="tag amber">Nominations</span></li>
+                  </ul>
+                  <div class="panel-foot"><span>Motto: Unity and Discipline.</span><button class="mini-link" type="button" data-view="about" data-path="public/about">About the unit →</button></div>
+                </div>
+              </div>
+
+              <div class="public-grid">
+                <div class="public-card">
+                  <h4>Upcoming events</h4>
+                  <div class="event-list" style="margin-top:7px">
+                    <div class="event"><span class="date">NOV<b>02</b></span><div><h5>CATC selection</h5><p>Unit office · 08:00</p></div><span class="tag blue">Camp</span></div>
+                    <div class="event"><span class="date">NOV<b>04</b></span><div><h5>Blood donation camp</h5><p>Main auditorium · 08:30</p></div><span class="tag">Service</span></div>
+                    <div class="event"><span class="date">DEC<b>12</b></span><div><h5>Annual Day parade</h5><p>Main auditorium · 09:00</p></div><span class="tag">Parade</span></div>
+                  </div>
+                  <div class="panel-foot"><span>Public event calendar.</span><button class="mini-link" type="button" data-view="news" data-path="public/news">Full calendar →</button></div>
+                </div>
+                <div class="public-card">
+                  <h4>Join or visit</h4>
+                  <p>Enrolment opens at the start of the academic year. The unit office publishes the notice; there is no public sign-up form.</p>
+                  <p style="font-size:.62rem;color:#8b917f;margin-bottom:10px">NCC Office · Anna University · Chennai 600025<br>ncc@annauniv.edu · Parade ground: Kottur</p>
+                  <div class="btn-row"><button class="btn role sm" type="button" data-view="contact" data-path="public/contact">Contact the office</button><button class="btn secondary sm" type="button" data-view="login" data-path="login">Sign in</button></div>
+                  <div class="panel-foot"><span>Provisioned accounts only.</span><span>No public registration</span></div>
+                </div>
+              </div>
+              <p class="notice-line">This is a static prototype populated with representative content. The live site reads from <code>/news</code>, <code>/events</code> and <code>/announcements</code>; no personal data appears on any public page.</p>
+            </section>
+
+            <section class="view" id="view-news" aria-labelledby="public-news-title">
+              <div class="section-head">
+                <div><p class="kicker">Newsroom / Public feed</p><h2 id="public-news-title">News &amp; events.</h2></div>
+                <div><p>Stories and the camp calendar, published by officers. No account, no personal data, no comments section.</p></div>
+              </div>
+              <div class="news-feature">
+                <article class="news-lead">
+                  <p class="mono">Latest news · 26 Oct 2026</p>
+                  <h3>Alpha platoon takes the inter-college drill trophy</h3>
+                  <p>The wing's drill squad placed first at the inter-college meet in Guindy. The team will demonstrate the sequence at the next wing parade. The unit congratulates every cadet who trained through the September cycle.</p>
+                  <p class="mono" style="margin-top:12px;color:var(--khaki)">Representative mock story · public /news API</p>
+                </article>
+                <div class="news-stack">
+                  <article class="public-card"><h4>CATC nominations open</h4><p>Forty cadets from the wing are nominated for the October cycle. Final selection depends on camp performance and medical fitness.</p><span class="more">Read more</span></article>
+                  <article class="public-card"><h4>Blood donation camp</h4><p>The unit will host a voluntary camp at the main auditorium on 30 October, in association with the university health centre.</p><span class="more">Read more</span></article>
+                  <article class="public-card"><h4>Annual Day parade</h4><p>The wing will form a guard of honour at the university Annual Day on 12 December. Rehearsals begin in November.</p><span class="more">Read more</span></article>
+                </div>
+              </div>
+              <div class="public-grid">
+                <div class="public-card">
+                  <h4>Events &amp; camps calendar</h4>
+                  <div class="event-list" style="margin-top:7px">
+                    <div class="event"><span class="date">NOV<b>02</b></span><div><h5>CATC selection</h5><p>Unit office · 08:00 · nominated cadets</p></div><span class="tag blue">Camp</span></div>
+                    <div class="event"><span class="date">NOV<b>04</b></span><div><h5>Blood donation camp</h5><p>Main auditorium · 08:30 · open to the university</p></div><span class="tag">Service</span></div>
+                    <div class="event"><span class="date">DEC<b>12</b></span><div><h5>Annual Day parade</h5><p>Main auditorium · 09:00 · guard of honour</p></div><span class="tag">Parade</span></div>
+                    <div class="event"><span class="date">JAN<b>26</b></span><div><h5>Republic Day contingent</h5><p>University grounds · 08:00 · selection in December</p></div><span class="tag">Parade</span></div>
+                  </div>
+                </div>
+                <div class="public-card">
+                  <h4>How this content is published</h4>
+                  <ul class="mini-list">
+                    <li><span class="who"><b>News</b><small>Officer-written · GET /news</small></span><span class="tag green">Public</span></li>
+                    <li><span class="who"><b>Events</b><small>Officer-written · GET /events</small></span><span class="tag green">Public</span></li>
+                    <li><span class="who"><b>Announcements</b><small>Staff-written · GET /announcements</small></span><span class="tag green">Public</span></li>
+                    <li><span class="who"><b>Cadet data</b><small>Never on a public page</small></span><span class="tag red">Closed</span></li>
+                  </ul>
+                  <div class="panel-foot"><span>Readers do not need a session.</span><span>No comments</span></div>
+                </div>
+              </div>
+              <p class="notice-line">The running news page renders an empty state if the feed has no rows. This demo uses representative stories so the visual design can be reviewed.</p>
+            </section>
+
+            <section class="view" id="view-about" aria-labelledby="public-about-title">
+              <div class="section-head">
+                <div><p class="kicker">The unit / About</p><h2 id="public-about-title">Unity and discipline.</h2></div>
+                <div><p>The Anna University NCC Army Wing trains cadets in drill, weapon training, map reading, social service and leadership, feeding RDC / CATC / TSC selections and the B/C certificate exams.</p></div>
+              </div>
+              <div class="public-grid">
+                <article class="public-card">
+                  <h4>The unit</h4>
+                  <p>NCC at Anna University is part of the national cadet organisation. The Army Wing parades at the Kottur ground and operates from the NCC Office on campus. Training is weekly, with camps and selections through the year.</p>
+                  <p>Vision: disciplined, service-minded graduates ready for the Armed Forces, civil services and industry. The motto is <b>Unity and Discipline</b>.</p>
+                  <div class="tag-list" style="margin-top:9px"><span class="tag green">Drill</span><span class="tag blue">Adventure</span><span class="tag">Service</span><span class="tag amber">Leadership</span></div>
+                </article>
+                <article class="public-card">
+                  <h4>What cadets train in</h4>
+                  <ul class="mini-list">
+                    <li><span class="who"><b>Drill &amp; turnout</b><small>Foot drill, ceremonial parade, uniform standards</small></span><span class="tag">Weekly</span></li>
+                    <li><span class="who"><b>Weapon training</b><small>Safety, handling and range discipline</small></span><span class="tag">Module</span></li>
+                    <li><span class="who"><b>Map reading &amp; field craft</b><small>Navigation, camp craft, adventure</small></span><span class="tag">Camp</span></li>
+                    <li><span class="who"><b>Social service</b><small>Blood donation, plantation, community drives</small></span><span class="tag">Service</span></li>
+                    <li><span class="who"><b>Leadership</b><small>Platoon appointments, camp command, selections</small></span><span class="tag blue">Command</span></li>
+                  </ul>
+                </article>
+              </div>
+
+              <div class="public-grid">
+                <article class="public-card">
+                  <h4>Organisation</h4>
+                  <p>The public page publishes roles, not personal cadet data. Names and direct contacts are shared through the office.</p>
+                  <div class="org-cols">
+                    <div class="org-unit"><b>ANO</b><small>Associate NCC Officer</small><p>Unit command, approvals, reports and governance.</p></div>
+                    <div class="org-unit"><b>CTO</b><small>Caretaker / Training Officer</small><p>Training programme, records and camp coordination.</p></div>
+                    <div class="org-unit"><b>SUO</b><small>Senior Under Officer</small><p>Platoon leadership, parade attendance and duties.</p></div>
+                    <div class="org-unit"><b>Sergeants</b><small>Junior &amp; senior cadets</small><p>Section leadership, drill instruction and platoon support.</p></div>
+                  </div>
+                </article>
+                <article class="public-card">
+                  <h4>Camps &amp; selections</h4>
+                  <ul class="mini-list">
+                    <li><span class="who"><b>ATC</b><small>Annual Training Camp · basic field training</small></span><span class="tag blue">Camp</span></li>
+                    <li><span class="who"><b>CATC</b><small>Combined Annual Training Camp · inter-unit</small></span><span class="tag blue">Camp</span></li>
+                    <li><span class="who"><b>RDC</b><small>Republic Day Camp · New Delhi selection</small></span><span class="tag amber">Selection</span></li>
+                    <li><span class="who"><b>TSC</b><small>Thal Sainik Camp · competition selection</small></span><span class="tag amber">Selection</span></li>
+                    <li><span class="who"><b>B / C certificate</b><small>Attendance, camp and exam eligibility</small></span><span class="tag green">Certificate</span></li>
+                  </ul>
+                  <div class="panel-foot"><span>Dates live on the events page.</span><button class="mini-link" type="button" data-view="news" data-path="public/news">Calendar →</button></div>
+                </article>
+              </div>
+              <div class="note-band" style="margin-top:12px"><b>Public boundary</b><p>The story, the roles and the camp calendar are public. The cadet register, attendance, contact details and certificate records are not — they require a provisioned role and a server-resolved scope.</p></div>
+            </section>
+
+            <section class="view" id="view-gallery" aria-labelledby="public-gallery-title">
+              <div class="section-head">
+                <div><p class="kicker">Gallery / Consent-gated</p><h2 id="public-gallery-title">The unit in frames.</h2></div>
+                <div><p>Public media is a consent decision before it is a design decision. Only photographs with a recorded display consent should appear here.</p></div>
+              </div>
+              <div class="scope-banner warn"><span><b>Current build</b>The running gallery page is a text shell with no media store. This grid is a UI proposal for a consent-gated gallery, not a shipped photo library. Every tile is a labelled placeholder.</span></div>
+              <div class="gallery-grid">
+                <button class="photo-tile" type="button" data-toast="A consent-gated media tile. The running app has no photo store yet; public display would require an explicit consent flag per cadet." data-toast-title="Media slot"><span class="tile-tag">Consent recorded</span><b>Inter-college drill</b><small>Guindy · October 2026</small></button>
+                <button class="photo-tile" type="button" data-toast="Representative gallery slot. Photo consent and public display are separate flags in the proposed model." data-toast-title="Media slot"><span class="tile-tag">Consent recorded</span><b>CATC field craft</b><small>Annual Training Camp</small></button>
+                <button class="photo-tile" type="button" data-toast="Representative gallery slot. No personal data appears in the public caption." data-toast-title="Media slot"><span class="tile-tag">Consent recorded</span><b>Blood donation camp</b><small>Main auditorium · 2025</small></button>
+                <button class="photo-tile" type="button" data-toast="Representative gallery slot. The consent status is checked before the image is served publicly." data-toast-title="Media slot"><span class="tile-tag">Consent recorded</span><b>RDC selection</b><small>Unit grounds · 2025</small></button>
+                <button class="photo-tile" type="button" data-toast="Representative gallery slot. Captions avoid names, ranks and register numbers on public pages." data-toast-title="Media slot"><span class="tile-tag">Consent recorded</span><b>Tree plantation</b><small>Campus drive · 2025</small></button>
+                <div class="photo-tile is-locked"><b>Consent pending</b><small>Not published until the cadet's display consent is recorded.</small></div>
+              </div>
+              <div class="public-grid">
+                <div class="public-card">
+                  <h4>What the gallery will enforce</h4>
+                  <ul class="mini-list">
+                    <li><span class="who"><b>Explicit photo consent</b><small>Separate from enrolment data consent</small></span><span class="tag amber">Gate</span></li>
+                    <li><span class="who"><b>No PII in captions</b><small>No names, ranks, register numbers or unit locations</small></span><span class="tag red">Rule</span></li>
+                    <li><span class="who"><b>Withdrawal</b><small>A withdrawn consent unpublishes the media</small></span><span class="tag">Policy</span></li>
+                  </ul>
+                </div>
+                <div class="public-card">
+                  <h4>What exists today</h4>
+                  <p>The route and page copy exist; uploads, storage and a consent-flag join do not. The current page explicitly says uploads require photo consent and public display needs an explicit flag.</p>
+                  <span class="status road">Phase 2</span>
+                  <div class="panel-foot"><span>Do not describe this as a live gallery.</span><span>UI proposal</span></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="view" id="view-contact" aria-labelledby="public-contact-title">
+              <div class="section-head">
+                <div><p class="kicker">Visit / Contact</p><h2 id="public-contact-title">Find the unit.</h2></div>
+                <div><p>The public contact surface gives a real address and email. It does not expose a staff or cadet directory.</p></div>
+              </div>
+              <div class="login-split">
+                <div class="public-card">
+                  <h4>NCC Office</h4>
+                  <p style="font-size:.72rem;color:#37402d;line-height:1.7">Anna University<br>Chennai — 600025<br>Parade ground: Kottur</p>
+                  <p style="font-size:.72rem;color:#37402d"><b>Email:</b> <a href="mailto:ncc@annauniv.edu" style="border-bottom:1px solid var(--line-2)">ncc@annauniv.edu</a></p>
+                  <div class="btn-row" style="margin-top:9px"><a class="btn role sm" href="mailto:ncc@annauniv.edu">Email the office</a><button class="btn secondary sm" type="button" data-toast="A map embed and social links are not implemented yet. The current contact page shows the address, email and parade ground." data-toast-title="Map & links">Map &amp; links</button></div>
+                  <p class="login-note">The running contact page does not include a contact form. Email is the reliable public channel; official notices also go via the announcement board and WhatsApp/email.</p>
+                </div>
+                <div>
+                  <div class="public-card">
+                    <h4>Prospective cadets</h4>
+                    <p>Enrolment opens at the start of the academic year. Watch the notice board and the unit office; there is no public sign-up form in this portal.</p>
+                    <ul class="mini-list">
+                      <li><span class="who"><b>Step 1</b><small>Read the enrolment notice</small></span><span class="tag green">Public</span></li>
+                      <li><span class="who"><b>Step 2</b><small>Submit the office form and consent</small></span><span class="tag amber">Office</span></li>
+                      <li><span class="who"><b>Step 3</b><small>Receive a provisioned login</small></span><span class="tag blue">Account</span></li>
+                    </ul>
+                  </div>
+                  <div class="login-box" style="max-width:none;margin-top:9px">
+                    <h4>Already have a login?</h4>
+                    <p>Cadets sign in with an AU email or register number. Staff use their unit email. Access is provisioned by the office.</p>
+                    <button class="btn role" type="button" data-view="login" data-path="login">Go to sign in</button>
+                    <p class="login-note">No public registration. No “forgot password” flow yet — contact the office.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="view" id="view-login" aria-labelledby="public-login-title">
+              <div class="section-head">
+                <div><p class="kicker">Gate / Provisioned access</p><h2 id="public-login-title">Sign in to the portal.</h2></div>
+                <div><p>The public site ends here. The portal behind this form is role-aware: a cadet sees their own record, a leader sees one platoon, an officer sees the wing, and a super admin owns access.</p></div>
+              </div>
+              <div class="login-split">
+                <div class="login-box" style="margin-top:0;max-width:none">
+                  <h4>Portal login</h4>
+                  <p>Use the credential issued by the unit office. Register-number logins are supported for cadets.</p>
+                  <form id="publicLoginForm">
+                    <label class="field">Email or register number<input class="input" id="publicLoginId" autocomplete="username" placeholder="2023CS1042 or name@annauniv.edu" required></label>
+                    <label class="field">Password<input class="input" id="publicLoginPassword" type="password" autocomplete="current-password" placeholder="••••••••" required></label>
+                    <button class="btn role" type="submit">Sign in</button>
+                  </form>
+                  <p class="login-note" id="publicLoginStatus">Demo only. No credentials are sent anywhere and no account is created.</p>
+                  <div class="btn-row" style="margin-top:8px"><button class="btn secondary sm" type="button" data-toast="Password reset and account deactivation are Phase 2. Contact the unit office." data-toast-title="No reset yet">Forgot password?</button><button class="btn secondary sm" type="button" data-toast="Public self-registration is disabled by default (ALLOW_PUBLIC_REGISTRATION=0). Accounts are provisioned by staff." data-toast-title="Registration closed">Create account</button></div>
+                </div>
+                <aside class="login-aside">
+                  <p class="mono">What waits behind the gate</p>
+                  <h4>Four roles. One source of truth.</h4>
+                  <p>The same login resolves a different, server-enforced scope. The public site never decides what you can see.</p>
+                  <ul>
+                    <li><b>Cadet</b> — own record, attendance standing, notices.</li>
+                    <li><b>Platoon leader</b> — one platoon, parade marking, publish-only notices.</li>
+                    <li><b>Officer</b> — whole wing, register, exports, overrides.</li>
+                    <li><b>Super admin</b> — access, deactivation, governance.</li>
+                  </ul>
+                  <div class="btn-row" style="margin-top:12px"><a class="btn" href="index.html" style="background:transparent;color:#f3efdf;border-color:rgba(255,255,255,.4)">Open the field guide</a></div>
+                  <p class="login-note" style="color:#a8b09b">This is a static demo. The real login returns a short-lived access token and a rotating refresh token.</p>
+                </aside>
+              </div>
+              <p class="notice-line">Public registration is disabled by default. An unlinked cadet login is a valid state: the portal tells the person to ask the office to link their register number.</p>
+            </section>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Figure 05 · Public site · published content and a login gate; no cadet record is reachable from these pages.</p>
+    </div>
+  </section>
+
+  <section class="section" id="capabilities">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">02 / What they can do</p>
+          <h2>Read the story.<br><em>Knock on the door.</em></h2>
+        </div>
+        <div><p>The public role is mostly a read contract with one real action: signing in with credentials the office already issued. There is no self-service account creation to design around.</p></div>
+      </div>
+      <div class="cap-grid">
+        <article class="cap-card"><span class="cap-num">01</span><h3>Browse the public site</h3><p>Home, about, organisation, news, events, notices, gallery shell and contact — all without an account.</p><span class="status live">Live MVP</span></article>
+        <article class="cap-card"><span class="cap-num">02</span><h3>Read news &amp; events</h3><p>Officer-published stories and the camp calendar. The public content API is world-readable.</p><span class="status live">Live MVP</span></article>
+        <article class="cap-card"><span class="cap-num">03</span><h3>Read official notices</h3><p>The announcement board is public, urgent-first and shared with signed-in users.</p><span class="status live">Live MVP</span></article>
+        <article class="cap-card"><span class="cap-num">04</span><h3>Find the unit</h3><p>Address, email and parade ground. A map embed and social links are still placeholders.</p><span class="status live">Live MVP</span></article>
+        <article class="cap-card"><span class="cap-num">05</span><h3>Sign in if provisioned</h3><p>Email or register number plus password. The portal routes to the role's landing surface; no public sign-up.</p><span class="status live">Live MVP</span></article>
+        <article class="cap-card"><span class="cap-num">06</span><h3>Browse consent-gated media</h3><p>The gallery is a UI proposal. The running page is a text shell; uploads, storage and consent joins are not built.</p><span class="status road">Phase 2</span></article>
+      </div>
+
+      <div class="boundary-grid">
+        <article class="boundary">
+          <h3>Can <span>access</span></h3>
+          <ul>
+            <li>Read the unit story, roles, news, events and public notices.</li>
+            <li>See the contact address and email the office.</li>
+            <li>Open the login form and sign in with provisioned credentials.</li>
+            <li>Browse the gallery shell and understand the consent policy.</li>
+            <li>Share any public page; no login is required.</li>
+          </ul>
+        </article>
+        <article class="boundary denied">
+          <h3>Cannot <span>guardrails</span></h3>
+          <ul>
+            <li>See the cadet register, attendance, certificates or any personal data.</li>
+            <li>Create an account — public registration is disabled by default.</li>
+            <li>Read staff dashboards, reports, exports or the audit trail.</li>
+            <li>Post, edit or withdraw announcements, news or events.</li>
+            <li>Submit a contact form — no endpoint or UI exists.</li>
+            <li>Upload or view unconsented photos.</li>
+            <li>Reset a password; there is no self-service flow yet.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="workflow">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">03 / Visitor journey</p>
+          <h2>Discover. Read.<br><em>Sign in or write.</em></h2>
+        </div>
+        <div><p>The public journey is a funnel, not a workflow: anonymous discovery ends at one of two doors — a real-world contact or a provisioned login.</p></div>
+      </div>
+      <div class="journey-controls"><button class="play-btn" id="playJourney" type="button">▶ Walk through</button><span class="progress" id="journeyProgress">Step 1 / 6</span></div>
+      <div class="journey-layout">
+        <div class="journey" id="journeyList" aria-label="Public visitor journey"></div>
+        <aside class="journey-detail" id="journeyDetail" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="notes">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">04 / Evidence &amp; gaps</p>
+          <h2>A clean public edge.<br><em>A few empty shelves.</em></h2>
+        </div>
+        <div><p>The public API is simple and already exists. The main gaps are editorial surfaces (no news/event composer UI), the gallery store, and a contact form that was never built.</p></div>
+      </div>
+      <div class="evidence-grid">
+        <div class="evidence"><p class="mono">News</p><h4>World-readable</h4><p>Published stories are returned newest-first. Writes are officer-only and audited.</p><code>GET /news · POST /news</code></div>
+        <div class="evidence"><p class="mono">Events</p><h4>Camp calendar</h4><p>Events are readable by anyone and ordered by start date. Writes are officer-only.</p><code>GET /events · POST /events</code></div>
+        <div class="evidence"><p class="mono">Notices</p><h4>Public board</h4><p>The same announcement feed as the signed-in home page. Urgent sorts above general.</p><code>GET /announcements</code></div>
+        <div class="evidence"><p class="mono">Login</p><h4>Provisioned only</h4><p>Email or register number plus password. Self-registration is opt-in per environment and off by default.</p><code>POST /auth/login</code><code>ALLOW_PUBLIC_REGISTRATION=0</code></div>
+        <div class="evidence"><p class="mono">Content</p><h4>Static pages</h4><p>About, organisation and contact are simple server-rendered pages. There is no CMS and no contact form.</p><code>about · organisation · contact</code></div>
+        <div class="evidence"><p class="mono">Gap</p><h4>Gallery &amp; editor</h4><p>No media store, no consent-flag join, no news/event composer, no map embed, no social links.</p><code>Phase 2 backlog</code></div>
+      </div>
+      <div class="note-band"><b>Team-lead note</b><p>The public site is the easiest place to over-promise. Do not claim a live gallery or a working contact form. The honest public features are reading pages, reading the board and signing in with an account the office already made.</p></div>
+      <div class="demo-list">
+        <div><b>Demo cue 01</b>Start at Public home. Point out that every notice and story here is also visible to a signed-out visitor.</div>
+        <div><b>Demo cue 02</b>Open Gallery, then the locked tile. Explain the consent gate and say clearly that media is Phase 2.</div>
+        <div><b>Demo cue 03</b>Press Sign in, submit the demo form, and land on the “no public registration” explanation.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+window.JOURNEY = {
+  steps: [
+    { title:"Arrive anonymously", actor:"Public", phase:"01 / DISCOVER", status:["live","Live MVP"],
+      short:"Home page, no account, no cookie wall.",
+      body:"A visitor lands on the public home page. The unit story, motto, public notices and event preview are rendered from public endpoints. There is no login prompt at the door and no personal data in the response.",
+      system:"GET /news · GET /events · GET /announcements",
+      guardrail:"Public routes return already-published content only. No cadet table is joinable from the public contract.",
+      handoff:"A visitor chooses a story, the calendar or the contact page." },
+    { title:"Learn the unit", actor:"Public", phase:"02 / STORY", status:["live","Live MVP"],
+      short:"Motto, training, camps, organisation roles.",
+      body:"The about and organisation pages explain the unit's purpose, training pillars and camp pipeline. The public organisation view lists roles, not personal cadet records. Names and direct contacts are handled through the office.",
+      system:"/about · /organisation · static public pages",
+      guardrail:"Role descriptions only; no staff directory and no cadet PII.",
+      handoff:"A prospective cadet or parent knows who the unit is and what it does." },
+    { title:"Read news, events and notices", actor:"Public", phase:"03 / READ", status:["live","Live MVP"],
+      short:"The same board the cadets read.",
+      body:"News, the camp calendar and official announcements are all world-readable. The announcement board is urgent-first. A visitor can catch up on the unit's public record without creating an account.",
+      system:"GET /news · GET /events · GET /announcements",
+      guardrail:"Reading is public; writing is officer-only. There is no comment or reaction surface.",
+      handoff:"A reason to visit, join or contact the office." },
+    { title:"Find the unit", actor:"Public", phase:"04 / CONTACT", status:["live","Live MVP"],
+      short:"Address, email, parade ground.",
+      body:"The contact page carries the NCC Office address, the unit email and the Kottur parade ground. A map embed and social links are placeholders in the current page; email is the reliable channel.",
+      system:"/contact · mailto:ncc@annauniv.edu",
+      guardrail:"No staff or cadet directory. No contact form endpoint.",
+      handoff:"An email to the office or a visit to campus." },
+    { title:"Meet the login gate", actor:"Public", phase:"05 / GATE", status:["live","Live MVP"],
+      short:"Provisioned credentials only; no self-registration.",
+      body:"The public site offers a login form because cadets and staff need a way in. It does not offer account creation. Public registration is disabled by default and the office provisions every account. A wrong password is a rate-limited failure, not a route to a sign-up flow.",
+      system:"POST /auth/login · ALLOW_PUBLIC_REGISTRATION=0",
+      guardrail:"No public register endpoint; access tokens are short-lived and refresh tokens rotate.",
+      handoff:"A role-aware portal behind the gate." },
+    { title:"Enter the right portal", actor:"Cadet / Staff", phase:"06 / HANDOFF", status:["live","Live MVP"],
+      short:"One login, four scopes.",
+      body:"After sign-in the role resolves the landing surface: a cadet sees their own record, a leader one platoon, an officer the wing, a super admin access and governance. The public site never decides the scope and the browser cannot widen it.",
+      system:"GET /auth/me · staffScope() · /cadets/me",
+      guardrail:"Scope is server-resolved on every request; a cadet cannot see a roster and a leader cannot see the wing.",
+      handoff:"The public visitor becomes a signed-in cadet or staff user — or stays a reader." }
+  ]
+};
+
+(function () {
+  "use strict";
+
+  const form = document.getElementById("publicLoginForm");
+  const status = document.getElementById("publicLoginStatus");
+  if (form) {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const id = document.getElementById("publicLoginId").value.trim();
+      if (status) status.textContent = "Demo only — " + (id || "that account") + " was not authenticated. The running app calls POST /auth/login and routes by role.";
+      window.NCC.toast("No credentials were sent. In the running app, a valid login returns a short-lived access token and routes to the role's dashboard. Public self-registration is disabled.", "Demo login");
+    });
+  }
+})();
+</script>
+
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-brand">AU NCC <span>Army Wing</span></div>
+      <p>Public perspective · the published face of the unit and the provisioned login gate.</p>
+      <p>Static HTML · inline CSS and JS · mock data only · no API calls, no personal data, no external dependencies.</p>
+    </div>
+    <div class="footer-meta">
+      <a href="README.md">Read the full role guide</a><br>
+      <a href="admin.html">Admin</a> · <a href="officer.html">Officer</a> · <a href="leader.html">Leader</a> · <a href="cadet.html">Cadet</a> · <a href="public.html">Public</a><br>
+      <a href="index.html">Back to all perspectives</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  const toastEl = document.getElementById("toast");
+  let toastTimer = null;
+
+  const NCC = window.NCC = {
+    toast: function (message, title) {
+      if (!toastEl) return;
+      toastEl.innerHTML = "";
+      const b = document.createElement("b");
+      b.textContent = title || "Demo action";
+      const span = document.createElement("span");
+      span.textContent = message;
+      toastEl.append(b, span);
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 3800);
+    },
+    setView: function (id) {
+      const target = document.getElementById("view-" + id);
+      if (!target) return;
+      document.querySelectorAll(".view").forEach(function (view) {
+        view.classList.toggle("active", view === target);
+      });
+      document.querySelectorAll("[data-view]").forEach(function (btn) {
+        const on = btn.dataset.view === id;
+        btn.classList.toggle("active", on);
+        if (on) btn.setAttribute("aria-current", "page");
+        else btn.removeAttribute("aria-current");
+      });
+      const activeBtn = document.querySelector('[data-view="' + id + '"]');
+      const appPath = document.getElementById("appPath");
+      if (appPath && activeBtn) appPath.textContent = activeBtn.dataset.path || id;
+    }
+  };
+
+  // Tab navigation + deep links (screens can be opened with #view-id).
+  document.querySelectorAll("[data-view]").forEach(function (btn) {
+    btn.addEventListener("click", function () { NCC.setView(btn.dataset.view); });
+  });
+  const hash = location.hash.replace("#view-", "");
+  if (hash && document.getElementById("view-" + hash)) NCC.setView(hash);
+
+  // Generic mock actions.
+  document.querySelectorAll("[data-toast]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      NCC.toast(el.dataset.toast, el.dataset.toastTitle || "Preview only");
+    });
+  });
+
+  // Modals.
+  document.querySelectorAll("[data-modal-open]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const modal = document.getElementById(btn.dataset.modalOpen);
+      if (!modal) return;
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      const first = modal.querySelector("input,select,textarea,button");
+      if (first) setTimeout(function () { first.focus(); }, 30);
+    });
+  });
+  document.querySelectorAll("[data-modal-close]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const modal = btn.closest(".modal-backdrop");
+      if (!modal) return;
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    });
+  });
+  document.querySelectorAll(".modal-backdrop").forEach(function (backdrop) {
+    backdrop.addEventListener("click", function (event) {
+      if (event.target !== backdrop) return;
+      backdrop.classList.remove("open");
+      backdrop.setAttribute("aria-hidden", "true");
+    });
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    document.querySelectorAll(".modal-backdrop.open").forEach(function (backdrop) {
+      backdrop.classList.remove("open");
+      backdrop.setAttribute("aria-hidden", "true");
+    });
+  });
+
+  // Section nav scroll-spy.
+  const navLinks = Array.from(document.querySelectorAll(".section-nav a[href^='#']"));
+  const sections = navLinks.map(function (link) {
+    return document.querySelector(link.getAttribute("href"));
+  }).filter(Boolean);
+  if ("IntersectionObserver" in window && sections.length) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(function (link) {
+          link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+        });
+      });
+    }, { rootMargin: "-32% 0px -58% 0px", threshold: 0 });
+    sections.forEach(function (section) { io.observe(section); });
+  }
+
+  // Journey component shared by every perspective.
+  const journeyList = document.getElementById("journeyList");
+  const journeyDetail = document.getElementById("journeyDetail");
+  const journey = window.JOURNEY;
+  if (!journeyList || !journeyDetail || !journey || !Array.isArray(journey.steps)) return;
+
+  let active = 0;
+  let playTimer = null;
+  const progress = document.getElementById("journeyProgress");
+  const playBtn = document.getElementById("playJourney");
+
+  function statusHtml(step) {
+    const parts = [];
+    if (step.status) parts.push('<span class="status ' + step.status[0] + '">' + step.status[1] + "</span>");
+    if (step.status2) parts.push('<span class="status ' + step.status2[0] + '">' + step.status2[1] + "</span>");
+    return parts.join(" ");
+  }
+
+  function renderDetail(index) {
+    const step = journey.steps[index];
+    if (!step) return;
+    journeyDetail.innerHTML =
+      '<div class="jd-top"><span class="jd-status">' + statusHtml(step) + "</span><span class=\"mono\">" + step.phase + "</span></div>" +
+      "<h3>" + step.title + "</h3>" +
+      "<p>" + step.body + "</p>" +
+      '<dl class="jd-grid">' +
+      "<div><dt>System / API</dt><dd><code>" + step.system + "</code></dd></div>" +
+      "<div><dt>Guardrail</dt><dd>" + step.guardrail + "</dd></div>" +
+      "<div><dt>Handoff</dt><dd>" + step.handoff + "</dd></div>" +
+      "</dl>";
+    journeyList.querySelectorAll(".journey-step").forEach(function (btn, i) {
+      btn.classList.toggle("active", i === index);
+      btn.setAttribute("aria-current", i === index ? "step" : "false");
+    });
+    if (progress) progress.textContent = "Step " + (index + 1) + " / " + journey.steps.length;
+  }
+
+  journey.steps.forEach(function (step, index) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "journey-step";
+    btn.innerHTML =
+      '<span class="step-dot">' + String(index + 1).padStart(2, "0") + "</span>" +
+      '<span class="step-body"><h4>' + step.title + "</h4><p>" + step.short + "</p></span>" +
+      '<span class="step-role">' + step.actor + "</span>";
+    btn.addEventListener("click", function () {
+      stopPlay();
+      active = index;
+      renderDetail(active);
+    });
+    journeyList.appendChild(btn);
+  });
+
+  function stopPlay() {
+    if (playTimer) {
+      clearInterval(playTimer);
+      playTimer = null;
+    }
+    if (playBtn) playBtn.textContent = "▶ Walk through";
+  }
+
+  if (playBtn) {
+    playBtn.addEventListener("click", function () {
+      if (playTimer) { stopPlay(); return; }
+      active = 0;
+      renderDetail(active);
+      playBtn.textContent = "❚❚ Pause";
+      playTimer = setInterval(function () {
+        if (active >= journey.steps.length - 1) {
+          stopPlay();
+          playBtn.textContent = "↻ Replay";
+          return;
+        }
+        active += 1;
+        renderDetail(active);
+      }, 2200);
+    });
+  }
+
+  renderDetail(0);
+})();
+
+</script>
+</body>
+</html>
